@@ -1,0 +1,19 @@
+{
+  "dataset": "or2",
+  "n_series": 4707,
+  "n_weeks": 106,
+  "panel_cells": 419814,
+  "pct_zero_weeks": 53.3,
+  "median_active_weeks": 34.0,
+  "median_ADI": 2.04,
+  "median_CV2": 1.13,
+  "n_classifiable": 4574,
+  "class_dist_pct": {
+    "Lumpy": 55.4,
+    "Erratic": 28.2,
+    "Intermittent": 10.7,
+    "Smooth": 5.8
+  },
+  "pct_intermittent_or_lumpy": 66.1,
+  "pct_smooth": 5.8
+}

@@ -1,0 +1,30 @@
+# Data: downloaded by the pipeline from public sources, never committed.
+# Both datasets are third-party and are not ours to redistribute.
+# See README "Getting the data" for how to fetch them.
+data/
+
+# Virtual environments
+.venv/
+.venv_fm/
+.venv_tfm/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Personal material and packaging artifacts, not part of this study
+manuscript/*_evidence_brief.*
+manuscript/overleaf_submission.zip
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*~
+~$*

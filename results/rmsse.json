@@ -1,0 +1,250 @@
+{
+  "m5": {
+    "core6_fullset": {
+      "mean_RMSSE": {
+        "Naive": 1.021,
+        "SMA": 0.877,
+        "SES": 0.842,
+        "Croston": 0.91,
+        "SBA": 0.909,
+        "LightGBM (AI)": 0.797
+      },
+      "median_RMSSE": {
+        "Naive": 0.956,
+        "SMA": 0.808,
+        "SES": 0.773,
+        "Croston": 0.795,
+        "SBA": 0.798,
+        "LightGBM (AI)": 0.732
+      },
+      "mcb": {
+        "N": 30461,
+        "critical_distance": 0.043,
+        "mean_ranks": {
+          "Naive": 5.329,
+          "SMA": 4.03,
+          "SES": 2.946,
+          "Croston": 3.252,
+          "SBA": 3.483,
+          "LightGBM (AI)": 1.96
+        },
+        "sig_worse_than_best": {
+          "Naive": true,
+          "SMA": true,
+          "SES": true,
+          "Croston": true,
+          "SBA": true,
+          "LightGBM (AI)": false
+        }
+      }
+    },
+    "core6_by_class": {
+      "Smooth": {
+        "n": 15985,
+        "Naive": 0.981,
+        "SMA": 0.841,
+        "SES": 0.81,
+        "Croston": 0.847,
+        "SBA": 0.852,
+        "LightGBM (AI)": 0.767
+      },
+      "Intermittent": {
+        "n": 10039,
+        "Naive": 1.099,
+        "SMA": 0.934,
+        "SES": 0.892,
+        "Croston": 1.004,
+        "SBA": 0.996,
+        "LightGBM (AI)": 0.847
+      },
+      "Erratic": {
+        "n": 1958,
+        "Naive": 0.862,
+        "SMA": 0.777,
+        "SES": 0.748,
+        "Croston": 0.789,
+        "SBA": 0.788,
+        "LightGBM (AI)": 0.704
+      },
+      "Lumpy": {
+        "n": 2479,
+        "Naive": 1.086,
+        "SMA": 0.96,
+        "SES": 0.914,
+        "Croston": 1.03,
+        "SBA": 1.021,
+        "LightGBM (AI)": 0.866
+      }
+    },
+    "all8_subset": {
+      "mean_RMSSE": {
+        "Naive": 1.018,
+        "SMA": 0.874,
+        "SES": 0.839,
+        "Croston": 0.907,
+        "SBA": 0.906,
+        "LightGBM (AI)": 0.795,
+        "NHITS": 0.824,
+        "DeepAR": 0.825
+      },
+      "median_RMSSE": {
+        "Naive": 0.953,
+        "SMA": 0.806,
+        "SES": 0.771,
+        "Croston": 0.793,
+        "SBA": 0.797,
+        "LightGBM (AI)": 0.731,
+        "NHITS": 0.76,
+        "DeepAR": 0.759
+      },
+      "mcb": {
+        "N": 29569,
+        "critical_distance": 0.061,
+        "mean_ranks": {
+          "Naive": 7.215,
+          "SMA": 5.677,
+          "SES": 4.167,
+          "Croston": 4.425,
+          "SBA": 4.739,
+          "LightGBM (AI)": 2.509,
+          "NHITS": 3.736,
+          "DeepAR": 3.533
+        },
+        "sig_worse_than_best": {
+          "Naive": true,
+          "SMA": true,
+          "SES": true,
+          "Croston": true,
+          "SBA": true,
+          "LightGBM (AI)": false,
+          "NHITS": true,
+          "DeepAR": true
+        }
+      }
+    }
+  },
+  "or2": {
+    "core6_fullset": {
+      "mean_RMSSE": {
+        "Naive": 0.85,
+        "SMA": 0.737,
+        "SES": 0.714,
+        "Croston": 0.822,
+        "SBA": 0.812,
+        "LightGBM (AI)": 0.747
+      },
+      "median_RMSSE": {
+        "Naive": 0.368,
+        "SMA": 0.326,
+        "SES": 0.318,
+        "Croston": 0.405,
+        "SBA": 0.392,
+        "LightGBM (AI)": 0.372
+      },
+      "mcb": {
+        "N": 4317,
+        "critical_distance": 0.115,
+        "mean_ranks": {
+          "Naive": 3.758,
+          "SMA": 2.899,
+          "SES": 2.841,
+          "Croston": 4.008,
+          "SBA": 3.691,
+          "LightGBM (AI)": 3.803
+        },
+        "sig_worse_than_best": {
+          "Naive": true,
+          "SMA": false,
+          "SES": false,
+          "Croston": true,
+          "SBA": true,
+          "LightGBM (AI)": true
+        }
+      }
+    },
+    "core6_by_class": {
+      "Smooth": {
+        "n": 182,
+        "Naive": 1.128,
+        "SMA": 0.952,
+        "SES": 0.986,
+        "Croston": 1.041,
+        "SBA": 1.032,
+        "LightGBM (AI)": 1.058
+      },
+      "Intermittent": {
+        "n": 445,
+        "Naive": 0.44,
+        "SMA": 0.372,
+        "SES": 0.346,
+        "Croston": 0.483,
+        "SBA": 0.48,
+        "LightGBM (AI)": 0.431
+      },
+      "Erratic": {
+        "n": 1176,
+        "Naive": 1.07,
+        "SMA": 0.916,
+        "SES": 0.903,
+        "Croston": 0.932,
+        "SBA": 0.924,
+        "LightGBM (AI)": 0.929
+      },
+      "Lumpy": {
+        "n": 2514,
+        "Naive": 0.799,
+        "SMA": 0.703,
+        "SES": 0.671,
+        "Croston": 0.814,
+        "SBA": 0.803,
+        "LightGBM (AI)": 0.696
+      }
+    },
+    "all8_subset": {
+      "mean_RMSSE": {
+        "Naive": 0.745,
+        "SMA": 0.652,
+        "SES": 0.623,
+        "Croston": 0.731,
+        "SBA": 0.722,
+        "LightGBM (AI)": 0.662,
+        "NHITS": 0.639,
+        "DeepAR": 0.652
+      },
+      "median_RMSSE": {
+        "Naive": 0.297,
+        "SMA": 0.26,
+        "SES": 0.268,
+        "Croston": 0.374,
+        "SBA": 0.364,
+        "LightGBM (AI)": 0.321,
+        "NHITS": 0.244,
+        "DeepAR": 0.236
+      },
+      "mcb": {
+        "N": 4008,
+        "critical_distance": 0.166,
+        "mean_ranks": {
+          "Naive": 4.922,
+          "SMA": 3.826,
+          "SES": 3.737,
+          "Croston": 5.201,
+          "SBA": 4.818,
+          "LightGBM (AI)": 5.259,
+          "NHITS": 4.713,
+          "DeepAR": 3.524
+        },
+        "sig_worse_than_best": {
+          "Naive": true,
+          "SMA": true,
+          "SES": true,
+          "Croston": true,
+          "SBA": true,
+          "LightGBM (AI)": true,
+          "NHITS": true,
+          "DeepAR": false
+        }
+      }
+    }
+  }
+}

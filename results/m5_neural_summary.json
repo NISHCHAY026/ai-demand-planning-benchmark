@@ -1,0 +1,66 @@
+{
+  "dataset": "m5",
+  "steps": 500,
+  "n_scored": 29574,
+  "NHITS_mean_MASE": 0.989,
+  "NHITS_median_MASE": 0.826,
+  "DeepAR_mean_MASE": 1.007,
+  "DeepAR_median_MASE": 0.833,
+  "subset_n": 29574,
+  "subset_comparison_mean_median": {
+    "Naive": [
+      1.197,
+      1.019
+    ],
+    "SMA": [
+      1.062,
+      0.885
+    ],
+    "SES": [
+      1.031,
+      0.857
+    ],
+    "Croston": [
+      1.215,
+      0.902
+    ],
+    "SBA": [
+      1.205,
+      0.899
+    ],
+    "LightGBM": [
+      0.983,
+      0.821
+    ],
+    "NHITS": [
+      0.989,
+      0.826
+    ],
+    "DeepAR": [
+      1.007,
+      0.833
+    ]
+  },
+  "by_class": {
+    "Smooth": {
+      "n": 16005,
+      "NHITS": 0.829,
+      "DeepAR": 0.834
+    },
+    "Intermittent": {
+      "n": 10045,
+      "NHITS": 1.174,
+      "DeepAR": 1.211
+    },
+    "Erratic": {
+      "n": 1960,
+      "NHITS": 0.798,
+      "DeepAR": 0.81
+    },
+    "Lumpy": {
+      "n": 2480,
+      "NHITS": 1.402,
+      "DeepAR": 1.432
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "m5": {
+    "n_eligible": 30461,
+    "overall": [
+      {
+        "method": "Naive",
+        "mean_MASE": 1.164,
+        "median_MASE": 1.02,
+        "mean_RMSE": 5.416,
+        "PB_pct": 7.7,
+        "mean_bias": 0.172,
+        "pct_over": 62.4
+      },
+      {
+        "method": "SMA",
+        "mean_MASE": 1.031,
+        "median_MASE": 0.886,
+        "mean_RMSE": 4.874,
+        "PB_pct": 10.2,
+        "mean_bias": 0.123,
+        "pct_over": 58.0
+      },
+      {
+        "method": "SES",
+        "mean_MASE": 1.0,
+        "median_MASE": 0.858,
+        "mean_RMSE": 4.714,
+        "PB_pct": 8.8,
+        "mean_bias": 0.06,
+        "pct_over": 53.3
+      },
+      {
+        "method": "Croston",
+        "mean_MASE": 1.155,
+        "median_MASE": 0.903,
+        "mean_RMSE": 5.201,
+        "PB_pct": 10.6,
+        "mean_bias": -0.072,
+        "pct_over": 53.2
+      },
+      {
+        "method": "SBA",
+        "mean_MASE": 1.145,
+        "median_MASE": 0.9,
+        "mean_RMSE": 5.229,
+        "PB_pct": 18.7,
+        "mean_bias": -0.958,
+        "pct_over": 27.1
+      },
+      {
+        "method": "LightGBM (AI)",
+        "mean_MASE": 0.952,
+        "median_MASE": 0.821,
+        "mean_RMSE": 4.387,
+        "PB_pct": 44.0,
+        "mean_bias": -0.075,
+        "pct_over": 52.1
+      }
+    ],
+    "insample_winner": "SES",
+    "insample_PB": {
+      "naive": 6.2,
+      "sma": 25.1,
+      "ses": 44.9,
+      "croston": 4.0,
+      "sba": 19.7
+    },
+    "oos_winner": "SES",
+    "oos_mean_MASE": {
+      "naive": 1.164,
+      "sma": 1.031,
+      "ses": 1.0,
+      "croston": 1.155,
+      "sba": 1.145
+    },
+    "oos_PB_classical": {
+      "naive": 12.5,
+      "sma": 18.1,
+      "ses": 21.4,
+      "croston": 19.1,
+      "sba": 29.0
+    }
+  },
+  "or2": {
+    "n_eligible": 4317,
+    "overall": [
+      {
+        "method": "Naive",
+        "mean_MASE": 0.986,
+        "median_MASE": 0.469,
+        "mean_RMSE": 36.028,
+        "PB_pct": 25.6,
+        "mean_bias": -1.145,
+        "pct_over": 20.3
+      },
+      {
+        "method": "SMA",
+        "mean_MASE": 0.907,
+        "median_MASE": 0.431,
+        "mean_RMSE": 30.778,
+        "PB_pct": 24.8,
+        "mean_bias": -1.796,
+        "pct_over": 23.7
+      },
+      {
+        "method": "SES",
+        "mean_MASE": 0.876,
+        "median_MASE": 0.471,
+        "mean_RMSE": 29.854,
+        "PB_pct": 14.3,
+        "mean_bias": -3.036,
+        "pct_over": 56.6
+      },
+      {
+        "method": "Croston",
+        "mean_MASE": 1.163,
+        "median_MASE": 0.765,
+        "mean_RMSE": 34.297,
+        "PB_pct": 8.0,
+        "mean_bias": -0.391,
+        "pct_over": 63.5
+      },
+      {
+        "method": "SBA",
+        "mean_MASE": 1.137,
+        "median_MASE": 0.736,
+        "mean_RMSE": 33.86,
+        "PB_pct": 18.5,
+        "mean_bias": -3.136,
+        "pct_over": 56.5
+      },
+      {
+        "method": "LightGBM (AI)",
+        "mean_MASE": 0.943,
+        "median_MASE": 0.547,
+        "mean_RMSE": 31.587,
+        "PB_pct": 8.8,
+        "mean_bias": -0.45,
+        "pct_over": 76.9
+      }
+    ],
+    "insample_winner": "SBA",
+    "insample_PB": {
+      "naive": 17.6,
+      "sma": 19.9,
+      "ses": 15.1,
+      "croston": 0.3,
+      "sba": 47.0
+    },
+    "oos_winner": "SES",
+    "oos_mean_MASE": {
+      "naive": 0.986,
+      "sma": 0.907,
+      "ses": 0.876,
+      "croston": 1.163,
+      "sba": 1.137
+    },
+    "oos_PB_classical": {
+      "naive": 26.4,
+      "sma": 26.8,
+      "ses": 16.1,
+      "croston": 9.1,
+      "sba": 21.5
+    }
+  }
+}

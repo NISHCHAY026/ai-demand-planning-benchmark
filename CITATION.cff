@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: >-
+  The conditional value of AI in supply-chain demand planning: a reproducible
+  out-of-sample benchmark across the intermittency spectrum
+message: If you use this code or these results, please cite the work.
+type: software
+authors:
+  - family-names: Patel
+    given-names: Nishchay
+repository-code: https://github.com/NISHCHAY026/ai-demand-planning-benchmark
+license: MIT
+keywords:
+  - demand forecasting
+  - intermittent demand
+  - supply chain
+  - machine learning
+  - gradient boosting
+  - deep learning
+  - out-of-sample evaluation
+  - M5
+  - reproducibility
+abstract: >-
+  Benchmarks classical statistical forecasters (Naive, moving average, simple
+  exponential smoothing, Croston, Syntetos-Boylan), a global gradient-boosted
+  model (LightGBM), and two deep global neural forecasters (NHITS, DeepAR) on
+  two public retail datasets under one identical rolling-origin out-of-sample
+  protocol. Reports that in-sample method selection inverts out-of-sample, that
+  the value of machine-learning forecasters is conditional on demand regime and
+  data sufficiency, and documents a same-week transacted-price target leak that
+  inflates apparent model accuracy on transactional data.

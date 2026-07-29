@@ -1,0 +1,27 @@
+# Core pipeline: panel construction, classification, classical forecasters,
+# LightGBM, NHITS/DeepAR, evaluation, figures, manuscript build.
+# Python 3.11. Versions are the ones the published results were produced with.
+# LightGBM and neuralforecast both change numeric output across releases, so
+# reproducing the exact tables needs these pins.
+
+pandas==2.3.3
+numpy==2.4.4
+pyarrow==24.0.0
+lightgbm==4.6.0
+matplotlib==3.10.9
+
+# deep global forecasters (scripts 10_neural_baselines.py)
+neuralforecast==3.1.9
+torch==2.11.0+cpu
+pytorch-lightning==2.5.6
+
+# data acquisition
+datasetsforecast==1.0.1   # M5
+openpyxl==3.1.5           # reads the Online Retail II .xlsx
+
+# manuscript build (scripts 08, 09, 11, 13, 14, 15)
+reportlab==4.5.1
+python-docx==1.2.0
+
+# progress reporting
+tqdm==4.67.3

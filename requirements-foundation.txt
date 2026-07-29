@@ -1,0 +1,23 @@
+# Pretrained time-series foundation models. These need their own virtual
+# environments: chronos-forecasting and timesfm pin conflicting versions of
+# torch and jax, so neither can share the core environment.
+#
+# --- Chronos (script 18_foundation_models.py) ---
+# python -m venv .venv_fm
+# .venv_fm\Scripts\pip install -r requirements-foundation.txt
+
+pandas==2.3.3
+numpy==2.4.4
+pyarrow==24.0.0
+chronos-forecasting==2.2.2
+torch==2.11.0+cpu
+
+
+# --- TimesFM (script 20_timesfm.py) ---
+# Separate environment again:
+#   python -m venv .venv_tfm
+#   .venv_tfm\Scripts\pip install timesfm pandas numpy pyarrow
+#
+# NOTE: pyarrow is required and is easy to miss. Without it every read_parquet
+# call in 20_timesfm.py fails with "Unable to find a usable engine", which is
+# what happened on the M5 run recorded in results/m5_timesfm_run.log.

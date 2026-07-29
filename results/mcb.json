@@ -1,0 +1,98 @@
+{
+  "m5": {
+    "core6_fullset": {
+      "N": 30461,
+      "K": 6,
+      "critical_distance": 0.043,
+      "mean_ranks": {
+        "Naive": 4.923,
+        "SMA": 3.795,
+        "SES": 3.057,
+        "Croston": 3.534,
+        "SBA": 3.377,
+        "LightGBM (AI)": 2.315
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "LightGBM (AI)": false
+      }
+    },
+    "all8_subset": {
+      "N": 29569,
+      "K": 8,
+      "critical_distance": 0.061,
+      "mean_ranks": {
+        "Naive": 6.71,
+        "SMA": 5.377,
+        "SES": 4.401,
+        "Croston": 4.83,
+        "SBA": 4.661,
+        "LightGBM (AI)": 3.173,
+        "NHITS": 3.317,
+        "DeepAR": 3.531
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "LightGBM (AI)": false,
+        "NHITS": true,
+        "DeepAR": true
+      }
+    }
+  },
+  "or2": {
+    "core6_fullset": {
+      "N": 4317,
+      "K": 6,
+      "critical_distance": 0.115,
+      "mean_ranks": {
+        "Naive": 3.326,
+        "SMA": 2.769,
+        "SES": 2.913,
+        "Croston": 4.358,
+        "SBA": 3.601,
+        "LightGBM (AI)": 4.033
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": false,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "LightGBM (AI)": true
+      }
+    },
+    "all8_subset": {
+      "N": 4008,
+      "K": 8,
+      "critical_distance": 0.166,
+      "mean_ranks": {
+        "Naive": 4.492,
+        "SMA": 3.888,
+        "SES": 4.223,
+        "Croston": 6.012,
+        "SBA": 5.188,
+        "LightGBM (AI)": 5.806,
+        "NHITS": 3.681,
+        "DeepAR": 2.71
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "LightGBM (AI)": true,
+        "NHITS": true,
+        "DeepAR": false
+      }
+    }
+  }
+}

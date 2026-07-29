@@ -1,0 +1,19 @@
+{
+  "dataset": "m5",
+  "n_series": 30490,
+  "n_weeks": 282,
+  "panel_cells": 6838696,
+  "pct_zero_weeks": 23.8,
+  "median_active_weeks": 174.0,
+  "median_ADI": 1.24,
+  "median_CV2": 0.32,
+  "n_classifiable": 30490,
+  "class_dist_pct": {
+    "Smooth": 52.5,
+    "Intermittent": 32.9,
+    "Lumpy": 8.1,
+    "Erratic": 6.4
+  },
+  "pct_intermittent_or_lumpy": 41.0,
+  "pct_smooth": 52.5
+}

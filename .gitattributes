@@ -1,0 +1,10 @@
+# Normalise line endings so the repo is stable across platforms.
+* text=auto eol=lf
+
+# Binary artifacts: never touch these.
+*.parquet binary
+*.png     binary
+*.pdf     binary
+*.docx    binary
+*.xlsx    binary
+*.zip     binary

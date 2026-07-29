@@ -1,0 +1,6 @@
+method,insample_fit_MAE,insample_PB_pct,oos_mean_MASE,oos_PB_pct
+Naive,4.029,6.2,1.164,12.5
+SMA,3.652,25.1,1.031,18.1
+SES,3.603,44.9,1.0,21.4
+Croston,4.327,4.0,1.155,19.1
+SBA,4.311,19.7,1.145,29.0
