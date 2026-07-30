@@ -28,3 +28,7 @@ manuscript/overleaf_submission.zip
 Thumbs.db
 *~
 ~$*
+
+# Local backups from editing passes
+*.prehumanize.bak
+*.bak
