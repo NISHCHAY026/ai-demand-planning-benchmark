@@ -3,7 +3,7 @@
 One-step rolling-origin out-of-sample MASE; identical series across all methods (scored by every available method). Lower is better; **bold** = best in column.
 
 
-## Overall — mean (median) MASE
+## Overall: mean (median) MASE
 
 | Method | M5 (Walmart) (n=29574) | Online Retail II (n=4133) |
 |---|---|---|
@@ -19,7 +19,7 @@ One-step rolling-origin out-of-sample MASE; identical series across all methods 
 | Chronos-Bolt-Base (205M) | — | 0.735 (0.285) |
 | TimesFM-200M | — | 0.762 (0.309) |
 
-## M5 (Walmart) — mean MASE by regime
+## M5 (Walmart): mean MASE by regime
 
 | Method | Smooth (n=15408) | Erratic (n=1911) | Intermittent (n=9829) | Lumpy (n=2426) |
 |---|---|---|---|---|
@@ -33,7 +33,7 @@ One-step rolling-origin out-of-sample MASE; identical series across all methods 
 | DeepAR | 0.834 | 0.810 | 1.211 | 1.432 |
 | Chronos-Bolt-Small (48M) | 0.845 | 0.803 | 1.221 | 1.458 |
 
-## Online Retail II — mean MASE by regime
+## Online Retail II: mean MASE by regime
 
 | Method | Smooth (n=93) | Erratic (n=1016) | Intermittent (n=560) | Lumpy (n=2464) |
 |---|---|---|---|---|

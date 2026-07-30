@@ -50,7 +50,7 @@ for j,ds in enumerate(['m5','or2']):
     axb.set_xticks(range(4)); axb.set_xticklabels(['Smooth','Intermit.','Erratic','Lumpy'],fontsize=9)
     axb.set_ylabel('% of classifiable series'); axb.set_ylim(0,70)
     for b,v in zip(bars,dist.values): axb.text(b.get_x()+b.get_width()/2,v+1,f'{v:.0f}%',ha='center',fontsize=8)
-    axb.set_title(f'{DSNAME[ds]} — SBC class mix',fontsize=10)
+    axb.set_title(f'{DSNAME[ds]}: SBC class mix',fontsize=10)
 fig.suptitle('Figure 1.  Demand fingerprints: a dense, partly smooth grocery panel (M5) versus a sparse, '
              'predominantly lumpy e-commerce panel (Online Retail II).',fontsize=10,y=1.005)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig1_fingerprint.png'); plt.close(fig)
@@ -92,7 +92,8 @@ for j,ds in enumerate(['m5','or2']):
     for b,v in zip(bars,ov['mean_MASE']): ax.text(b.get_x()+b.get_width()/2,v+0.01,f'{v:.3f}',ha='center',fontsize=7.5)
     ax.set_ylim(0,max(ov['mean_MASE'])*1.18)
 fig.suptitle('Figure 3.  Out-of-sample accuracy across both datasets. The global AI model (LightGBM) leads on M5; '
-             'with strictly causal features, tuned simple smoothing leads on Online Retail II. Croston/SBA are weakest.',fontsize=9.5,y=1.02)
+             'with strictly causal features, tuned simple smoothing leads on Online Retail II. Croston/SBA are '
+             'weakest at this one-step horizon (see Section 5.10).',fontsize=9.5,y=1.02)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig3_overall_mase.png'); plt.close(fig)
 print('fig3 done')
 
@@ -137,7 +138,7 @@ for j,ds in enumerate(['m5','or2']):
         col = 'LightGBM' if m=='LightGBM (AI)' else m
         ax.plot(rb['test_weeks'],rb[col],marker='s',ms=4,lw=1.6,color=MCOL[m],label=m)
     ax.set_xlabel('hold-out window (weeks)'); ax.set_ylabel('mean OOS MASE')
-    ax.set_title(f'{DSNAME[ds]} — ranking stability',fontsize=9.5)
+    ax.set_title(f'{DSNAME[ds]}: ranking stability',fontsize=9.5)
     ax.set_xticks(rb['test_weeks'])
     if j==0: ax.legend(fontsize=7,frameon=False,ncol=2)
 # feature importance (M5)
@@ -146,8 +147,9 @@ ax=axes[2]
 ax.barh(range(len(imp)),imp['gain']/imp['gain'].sum()*100,color=NAVY,edgecolor='k',lw=.4)
 ax.set_yticks(range(len(imp))); ax.set_yticklabels(imp['feature'],fontsize=8)
 ax.set_xlabel('% of total gain'); ax.set_title('LightGBM drivers (M5)',fontsize=9.5)
-fig.suptitle('Figure 6.  Ranking is stable across hold-out horizons (left, centre); the AI model is driven mostly '
-             'by recent-demand and price signals (right).',fontsize=9.5,y=1.03)
+fig.suptitle('Figure 6.  Ranking is stable across hold-out horizons (left, centre). On M5 the AI model is driven '
+             'overwhelmingly by recent-demand aggregates; price features carry under 1% of total gain (right).',
+             fontsize=9.5,y=1.03)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig6_robustness.png'); plt.close(fig)
 print('fig6 done')
 print('All figures saved to', FIG)

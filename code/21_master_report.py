@@ -70,7 +70,7 @@ def main():
         master[ds] = {'n_common': n, 'overall_mean_median': overall, 'by_regime': byreg}
 
     # overall table
-    md.append('\n## Overall — mean (median) MASE\n')
+    md.append('\n## Overall: mean (median) MASE\n')
     cols_present = [ds for ds in DATASETS if ds in master]
     md.append('| Method | ' + ' | '.join(f'{DSNAME[ds]} (n={master[ds]["n_common"]})'
                                           for ds in cols_present) + ' |')
@@ -92,7 +92,7 @@ def main():
 
     # by-regime tables
     for ds in cols_present:
-        md.append(f'\n## {DSNAME[ds]} — mean MASE by regime\n')
+        md.append(f'\n## {DSNAME[ds]}: mean MASE by regime\n')
         regs = [r for r in REGIMES if r in master[ds]['by_regime']]
         md.append('| Method | ' + ' | '.join(f'{r} (n={master[ds]["by_regime"][r]["n"]})'
                                               for r in regs) + ' |')

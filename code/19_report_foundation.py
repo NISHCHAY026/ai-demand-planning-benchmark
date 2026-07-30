@@ -44,7 +44,7 @@ def main():
                 fm_labels.append(m)
     methods = ORDER + [m for m in fm_labels]
 
-    out.append('## Overall accuracy — mean (median) MASE, identical neural-eligible series\n')
+    out.append('## Overall accuracy: mean (median) MASE, identical neural-eligible series\n')
     hdr = '| Method | ' + ' | '.join(
         f'{DSNAME[ds]}  (n={avail[ds]["subset_n_all_methods"]})' for ds in DATASETS if ds in avail) + ' |'
     out.append(hdr)
