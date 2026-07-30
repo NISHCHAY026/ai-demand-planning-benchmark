@@ -47,12 +47,14 @@ gradient-boosted model (LightGBM, the M5-winning class), and two deep neural for
 | `06_robustness.py`       | Ranking stability across hold-out horizons |
 | `07_figures.py`          | Six publication figures |
 | `10_neural_baselines.py` | Global NHITS + DeepAR (neuralforecast), same OOS protocol |
+| `22_leadtime.py`         | Horizon sensitivity: classical methods re-scored on cumulative L-week demand (§5.10, Table 9) |
 | `12_check_citations.py`  | Citation-integrity audit (no orphan/uncited references) |
 | `manuscript_content.py`  | **Single source of truth** for the paper content |
 | `08_build_manuscript.py` | → `.docx`  | 
 | `11_build_pdf.py`        | → `.pdf` (reportlab, no Office needed) |
 | `13_build_latex.py`      | → `.tex` (article class; graphicx, booktabs) |
 | `14_build_markdown.py`   | → `.md` (GFM) |
+| `23_build_pandoc_md.py`  | → one Pandoc-ready `.md` with YAML front matter and inline LaTeX maths |
 | `lib.py`                 | Shared vectorised forecasters, metrics, ML feature builder |
 
 ## Getting the data
