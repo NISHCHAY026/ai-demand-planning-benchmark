@@ -1,0 +1,23 @@
+{
+  "upload_type": "software",
+  "title": "ai-demand-planning-benchmark: reproducible out-of-sample benchmark of classical, gradient-boosted and deep forecasters on M5 and UCI Online Retail II",
+  "creators": [
+    {
+      "name": "Patel, Nishchay",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "description": "Analysis pipeline and result tables for the study. Builds the weekly panels, classifies demand by the SBC scheme, fits Naive, moving-average, exponential-smoothing, Croston and Syntetos-Boylan forecasters, a global LightGBM model and the NHITS and DeepAR deep global models, runs the rolling-origin evaluation, and produces every result table and figure.",
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "Croston's method",
+    "lead-time demand",
+    "forecast accuracy measures",
+    "model selection",
+    "data leakage",
+    "machine learning",
+    "neural networks",
+    "M5 competition"
+  ]
+}
