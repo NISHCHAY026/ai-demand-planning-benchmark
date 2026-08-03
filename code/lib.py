@@ -211,8 +211,13 @@ def add_ml_features(panel, static, ds):
         # M5 sell_price is the POSTED weekly price from the competition's price file --
         # set independently of realised sales and known in advance, so same-week use is valid.
         df['price'] = df['sell_price'].astype('float32')
-        pmed = df.groupby('unique_id', observed=True)['sell_price'].transform('median')
-        df['price_ratio'] = (df['sell_price'] / pmed.replace(0, np.nan)).astype('float32')
+        # Normalise by an EXPANDING median of prices observed up to and including t.
+        # A full-sample median is computed over the whole panel, test window included,
+        # so it looks across the forecast origin. The level itself may be used at t
+        # because M5 prices are posted in advance, but the normaliser must not be.
+        expmed = (df.groupby('unique_id', observed=True)['sell_price']
+                    .expanding(min_periods=1).median().values)
+        df['price_ratio'] = (df['sell_price'] / np.where(expmed > 0, expmed, np.nan)).astype('float32')
     else:
         # OR2 prices are TRANSACTED prices, observed only in weeks with a sale; a same-week
         # price (or any fill indicator) perfectly reveals y>0 (verified: P(y>0 | price !=

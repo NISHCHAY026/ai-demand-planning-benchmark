@@ -80,10 +80,13 @@ for j, ds in enumerate(['m5', 'or2']):
         col = '#1E2761' if not sig else '#9AA0A6'
         ax.errorbar(v, yi, xerr=cd / 2, fmt='o', color=col, ecolor=col, capsize=3, ms=5, lw=1.6)
     ax.axvline(best + cd / 2 + 0, color='#C0392B', ls='--', lw=1)
-    ax.text(best + cd / 2, len(labs) - 0.4, ' best + CD/2', color='#C0392B', fontsize=7.5, va='bottom')
+    # Anchor at the bottom of the axes. Placed near the top it runs past the axes
+    # edge and collides with the panel title.
+    ax.text(best + cd / 2, -0.35, ' best + CD/2', color='#C0392B', fontsize=7.5,
+            va='bottom', ha='left')
     ax.set_yticks(y); ax.set_yticklabels(labs, fontsize=9)
     ax.set_xlabel('mean MASE rank (lower = better)  ±CD/2')
-    ax.set_title(f"{DSNAME[ds]} — n={d['N']:,}, CD={cd:.3f}", fontsize=10)
+    ax.set_title(f"{DSNAME[ds]}: n={d['N']:,}, CD={cd:.3f}", fontsize=10)
 fig.suptitle('Figure 7.  MCB/Nemenyi analysis on the neural-eligible subset (8 methods). Navy intervals are '
              'statistically indistinguishable from the best method at the 5% level; grey are significantly worse.',
              fontsize=9.5, y=1.03)

@@ -34,7 +34,7 @@
         "mean_MASE": 1.155,
         "median_MASE": 0.903,
         "mean_RMSE": 5.201,
-        "PB_pct": 10.6,
+        "PB_pct": 10.4,
         "mean_bias": -0.072,
         "pct_over": 53.2
       },
@@ -43,18 +43,18 @@
         "mean_MASE": 1.145,
         "median_MASE": 0.9,
         "mean_RMSE": 5.229,
-        "PB_pct": 18.7,
+        "PB_pct": 18.6,
         "mean_bias": -0.958,
         "pct_over": 27.1
       },
       {
         "method": "LightGBM (AI)",
-        "mean_MASE": 0.952,
+        "mean_MASE": 0.951,
         "median_MASE": 0.821,
-        "mean_RMSE": 4.387,
-        "PB_pct": 44.0,
-        "mean_bias": -0.075,
-        "pct_over": 52.1
+        "mean_RMSE": 4.393,
+        "PB_pct": 44.3,
+        "mean_bias": -0.068,
+        "pct_over": 52.8
       }
     ],
     "insample_winner": "SES",

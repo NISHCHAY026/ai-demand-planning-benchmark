@@ -6,11 +6,11 @@
       "critical_distance": 0.043,
       "mean_ranks": {
         "Naive": 4.923,
-        "SMA": 3.795,
-        "SES": 3.057,
-        "Croston": 3.534,
+        "SMA": 3.794,
+        "SES": 3.058,
+        "Croston": 3.536,
         "SBA": 3.377,
-        "LightGBM (AI)": 2.315
+        "LightGBM (AI)": 2.312
       },
       "sig_worse_than_best": {
         "Naive": true,
@@ -26,14 +26,14 @@
       "K": 8,
       "critical_distance": 0.061,
       "mean_ranks": {
-        "Naive": 6.71,
-        "SMA": 5.377,
-        "SES": 4.401,
-        "Croston": 4.83,
+        "Naive": 6.711,
+        "SMA": 5.375,
+        "SES": 4.402,
+        "Croston": 4.832,
         "SBA": 4.661,
-        "LightGBM (AI)": 3.173,
-        "NHITS": 3.317,
-        "DeepAR": 3.531
+        "LightGBM (AI)": 3.167,
+        "NHITS": 3.319,
+        "DeepAR": 3.533
       },
       "sig_worse_than_best": {
         "Naive": true,
