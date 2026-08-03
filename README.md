@@ -48,13 +48,10 @@ gradient-boosted model (LightGBM, the M5-winning class), and two deep neural for
 | `07_figures.py`          | Six publication figures |
 | `10_neural_baselines.py` | Global NHITS + DeepAR (neuralforecast), same OOS protocol |
 | `22_leadtime.py`         | Horizon sensitivity: classical methods re-scored on cumulative L-week demand (§5.10, Table 9) |
-| `12_check_citations.py`  | Citation-integrity audit (no orphan/uncited references) |
-| `manuscript_content.py`  | **Single source of truth** for the paper content |
-| `08_build_manuscript.py` | → `.docx`  | 
-| `11_build_pdf.py`        | → `.pdf` (reportlab, no Office needed) |
-| `13_build_latex.py`      | → `.tex` (article class; graphicx, booktabs) |
-| `14_build_markdown.py`   | → `.md` (GFM) |
-| `23_build_pandoc_md.py`  | → one Pandoc-ready `.md` with YAML front matter and inline LaTeX maths |
+| `18_foundation_models.py`| Zero-shot Chronos-Bolt inference, same OOS protocol |
+| `20_timesfm.py`          | Zero-shot TimesFM inference (separate environment) |
+| `mcb_analysis.py`        | Multiple-comparisons-with-the-best (Nemenyi) ranks |
+| `rmsse_analysis.py`      | Squared-error RMSSE sensitivity |
 | `lib.py`                 | Shared vectorised forecasters, metrics, ML feature builder |
 
 ## Getting the data
@@ -86,34 +83,24 @@ python 01_build_m5_weekly.py ; python 01_build_or2_weekly.py
 python 02_classify.py ; python 03_classical.py ; python 04_lgbm_global.py
 python 05_aggregate.py ; python 06_robustness.py
 python 10_neural_baselines.py or2 ; python 10_neural_baselines.py m5
-python 07_figures.py ; python 12_check_citations.py
-python 08_build_manuscript.py
-python 11_build_pdf.py ; python 13_build_latex.py ; python 14_build_markdown.py
+python 22_leadtime.py ; python 07_figures.py
+python mcb_analysis.py ; python rmsse_analysis.py
 ```
 
-## Deliverables: `manuscript/`
-Everything in **four formats** (`.docx`, `.pdf`, `.tex`, `.md`) from one shared source.
+## Scope: what this repository contains
 
-**Reading copy:**
-- `AI_demand_planning_OOS_benchmark.{docx,pdf,tex,md}` (full paper: 8 sections, 6 tables, 6 figures).
+This repository holds the analysis pipeline and its outputs: the code that builds the weekly
+panels, classifies demand, fits every forecaster, runs the evaluation, and writes the result
+tables and figures. Everything in `results/` regenerates from `code/` and the two public
+datasets.
 
-**IJF submission package (International Journal of Forecasting, double-blind):**
-- `..._anonymized.{docx,pdf,tex,md}`: main manuscript, author identity removed (verified clean).
-- `..._title_page.{docx,pdf,tex,md}`: author, affiliation, abstract, declarations (fill the e-mail placeholder).
-- `IJF_cover_letter.{docx,pdf,md}`: submission cover letter.
-- `overleaf_submission.zip`: all `.tex` + local `figures/` + README; drag into Overleaf, compile with pdfLaTeX.
+The manuscript itself is not included. The paper is under peer review, the review is
+double-blind, and the paper will be released when it is published. Until then the numbers
+backing it are all here in `results/` and can be recomputed independently.
 
-`results/` holds all CSV/JSON result tables. `results/figures/` holds the six PNG figures.
+`results/` holds every CSV and JSON result table. `results/figures/` holds the seven figures.
 
 ## Integrity
-- **Citations:** `12_check_citations.py` verifies every in-text citation resolves to a reference
-  and every reference is cited (0 orphans, 0 uncited). Separately, all 38 references were checked
-  against the Crossref REST API on 2026-07-29, comparing DOI resolution and target identity, title,
-  year, container title, volume, issue, page range, and author surnames in order. 35 verified clean.
-  Three carry no DOI because none exists (Ke et al. 2017 and Oreshkin et al. 2020 are NeurIPS and
-  ICLR proceedings, absent from Crossref; executive orders have no DOI). None fabricated. What that
-  check cannot establish is whether each in-text citation faithfully represents the cited work's
-  argument, which is a separate reading task.
 - **Numbers:** every table/figure value is produced by the scripts from the public data; the
   manuscript's dynamic neural table (Table 6) is read directly from `results/*_neural_summary.json`.
 

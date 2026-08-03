@@ -1,5 +1,12 @@
 # Reproducibility backtest
 
+> **Scope note.** This repository ships the analysis pipeline only. The manuscript and its
+> builders are held back until the paper is published, so the manuscript-consistency layer
+> described below (`repro_backtest.py`, `_repro_extra.py`) is not runnable here. It is
+> retained as a record of what was verified, and Layer 2, which regenerates every result
+> from the code, runs in full.
+
+
 Two independent, re-runnable layers verify that the first paper
 (`AI_demand_planning_OOS_benchmark.*`) is reproducible and internally consistent.
 Both passed.
@@ -85,7 +92,6 @@ run it once and let it complete.
 ## How to reproduce
 ```powershell
 cd code
-python repro_backtest.py                 # Layer 1: 166 consistency checks
 python _repro_diff.py snapshot           # Layer 2: capture current results
 python 02_classify.py; python 03_classical.py; python 04_lgbm_global.py; python 05_aggregate.py
 python _repro_diff.py compare            # -> "ALL IDENTICAL (bit-for-bit numeric match)"
