@@ -50,6 +50,8 @@ gradient-boosted model (LightGBM, the M5-winning class), and two deep neural for
 | `22_leadtime.py`         | Horizon sensitivity: classical methods re-scored on cumulative L-week demand (§5.10, Table 9) |
 | `18_foundation_models.py`| Zero-shot Chronos-Bolt inference, same OOS protocol |
 | `20_timesfm.py`          | Zero-shot TimesFM inference (separate environment) |
+| `26_foundation_analysis.py` | Zero-shot models against trained ones; the data-sufficiency test (§5.11, Table 10) |
+| `27_managerial_table.py` | Method selection by demand class, mean MASE against Percentage-Best (§6.1, Table 11) |
 | `mcb_analysis.py`        | Multiple-comparisons-with-the-best (Nemenyi) ranks |
 | `rmsse_analysis.py`      | Squared-error RMSSE sensitivity |
 | `lib.py`                 | Shared vectorised forecasters, metrics, ML feature builder |
@@ -85,6 +87,8 @@ python 05_aggregate.py ; python 06_robustness.py
 python 10_neural_baselines.py or2 ; python 10_neural_baselines.py m5
 python 22_leadtime.py ; python 07_figures.py
 python mcb_analysis.py ; python rmsse_analysis.py
+python 18_foundation_models.py ; python 20_timesfm.py m5   # zero-shot, separate envs
+python 26_foundation_analysis.py ; python 27_managerial_table.py
 ```
 
 ## Scope: what this repository contains

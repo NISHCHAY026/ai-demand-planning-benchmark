@@ -1,0 +1,132 @@
+{
+  "m5": {
+    "label": "M5 (dense)",
+    "rows": [
+      {
+        "class": "Smooth",
+        "n": 15985,
+        "best_by_mean_MASE": "LightGBM",
+        "mean_MASE": 0.812,
+        "runner_up": "NHITS",
+        "runner_up_MASE": 0.829,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.857,
+        "gain_over_simple_pct": 5.3,
+        "best_by_PercentageBest": "LightGBM (AI)",
+        "PB_pct": 50.3,
+        "metrics_agree": true,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Erratic",
+        "n": 1958,
+        "best_by_mean_MASE": "LightGBM",
+        "mean_MASE": 0.79,
+        "runner_up": "NHITS",
+        "runner_up_MASE": 0.798,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.838,
+        "gain_over_simple_pct": 5.7,
+        "best_by_PercentageBest": "LightGBM (AI)",
+        "PB_pct": 43.0,
+        "metrics_agree": true,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Intermittent",
+        "n": 10039,
+        "best_by_mean_MASE": "NHITS",
+        "mean_MASE": 1.113,
+        "runner_up": "LightGBM",
+        "runner_up_MASE": 1.12,
+        "best_simple": "SES",
+        "best_simple_MASE": 1.165,
+        "gain_over_simple_pct": 4.5,
+        "best_by_PercentageBest": "LightGBM (AI)",
+        "PB_pct": 37.4,
+        "metrics_agree": false,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Lumpy",
+        "n": 2479,
+        "best_by_mean_MASE": "LightGBM",
+        "mean_MASE": 1.272,
+        "runner_up": "NHITS",
+        "runner_up_MASE": 1.275,
+        "best_simple": "SES",
+        "best_simple_MASE": 1.361,
+        "gain_over_simple_pct": 6.5,
+        "best_by_PercentageBest": "LightGBM (AI)",
+        "PB_pct": 35.3,
+        "metrics_agree": true,
+        "beats_naive_on_MASE": true
+      }
+    ]
+  },
+  "or2": {
+    "label": "Online Retail II (sparse)",
+    "rows": [
+      {
+        "class": "Smooth",
+        "n": 182,
+        "best_by_mean_MASE": "Chronos-Bolt-Base",
+        "mean_MASE": 0.752,
+        "runner_up": "Chronos-Bolt-Small",
+        "runner_up_MASE": 0.755,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.765,
+        "gain_over_simple_pct": 1.7,
+        "best_by_PercentageBest": "SBA",
+        "PB_pct": 31.9,
+        "metrics_agree": false,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Erratic",
+        "n": 1176,
+        "best_by_mean_MASE": "TimesFM-200M",
+        "mean_MASE": 0.81,
+        "runner_up": "Chronos-Bolt-Small",
+        "runner_up_MASE": 0.81,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.86,
+        "gain_over_simple_pct": 5.8,
+        "best_by_PercentageBest": "SBA",
+        "PB_pct": 29.1,
+        "metrics_agree": false,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Intermittent",
+        "n": 445,
+        "best_by_mean_MASE": "NHITS",
+        "mean_MASE": 0.375,
+        "runner_up": "DeepAR",
+        "runner_up_MASE": 0.375,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.515,
+        "gain_over_simple_pct": 27.2,
+        "best_by_PercentageBest": "Naive",
+        "PB_pct": 34.8,
+        "metrics_agree": false,
+        "beats_naive_on_MASE": true
+      },
+      {
+        "class": "Lumpy",
+        "n": 2514,
+        "best_by_mean_MASE": "NHITS",
+        "mean_MASE": 0.712,
+        "runner_up": "Chronos-Bolt-Base",
+        "runner_up_MASE": 0.722,
+        "best_simple": "SES",
+        "best_simple_MASE": 0.832,
+        "gain_over_simple_pct": 14.4,
+        "best_by_PercentageBest": "Naive",
+        "PB_pct": 32.8,
+        "metrics_agree": false,
+        "beats_naive_on_MASE": true
+      }
+    ]
+  }
+}

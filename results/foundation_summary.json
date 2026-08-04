@@ -1,0 +1,148 @@
+{
+  "m5": {
+    "n": 29569,
+    "class_n": {
+      "Smooth": 15408,
+      "Erratic": 1911,
+      "Intermittent": 9825,
+      "Lumpy": 2425
+    },
+    "Smooth": {
+      "classical": {
+        "method": "SES",
+        "mase": 0.857
+      },
+      "trained": {
+        "method": "LightGBM",
+        "mase": 0.812
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Small",
+        "mase": 0.845
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.033
+    },
+    "Erratic": {
+      "classical": {
+        "method": "SES",
+        "mase": 0.838
+      },
+      "trained": {
+        "method": "LightGBM",
+        "mase": 0.79
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Small",
+        "mase": 0.803
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.013
+    },
+    "Intermittent": {
+      "classical": {
+        "method": "SES",
+        "mase": 1.165
+      },
+      "trained": {
+        "method": "NHITS",
+        "mase": 1.113
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Small",
+        "mase": 1.149
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.036
+    },
+    "Lumpy": {
+      "classical": {
+        "method": "SES",
+        "mase": 1.361
+      },
+      "trained": {
+        "method": "LightGBM",
+        "mase": 1.272
+      },
+      "zero-shot": {
+        "method": "TimesFM-200M",
+        "mase": 1.306
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.034
+    }
+  },
+  "or2": {
+    "n": 4008,
+    "class_n": {
+      "Smooth": 93,
+      "Erratic": 1016,
+      "Intermittent": 437,
+      "Lumpy": 2462
+    },
+    "Smooth": {
+      "classical": {
+        "method": "SBA",
+        "mase": 0.763
+      },
+      "trained": {
+        "method": "DeepAR",
+        "mase": 0.765
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Base",
+        "mase": 0.752
+      },
+      "zeroshot_beats_trained": true,
+      "gap": -0.013
+    },
+    "Erratic": {
+      "classical": {
+        "method": "SES",
+        "mase": 0.86
+      },
+      "trained": {
+        "method": "NHITS",
+        "mase": 0.826
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Small",
+        "mase": 0.81
+      },
+      "zeroshot_beats_trained": true,
+      "gap": -0.016
+    },
+    "Intermittent": {
+      "classical": {
+        "method": "SES",
+        "mase": 0.515
+      },
+      "trained": {
+        "method": "NHITS",
+        "mase": 0.375
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Small",
+        "mase": 0.379
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.004
+    },
+    "Lumpy": {
+      "classical": {
+        "method": "SES",
+        "mase": 0.832
+      },
+      "trained": {
+        "method": "NHITS",
+        "mase": 0.712
+      },
+      "zero-shot": {
+        "method": "Chronos-Bolt-Base",
+        "mase": 0.722
+      },
+      "zeroshot_beats_trained": false,
+      "gap": 0.01
+    }
+  }
+}

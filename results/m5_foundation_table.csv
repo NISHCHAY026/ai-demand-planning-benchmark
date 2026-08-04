@@ -1,0 +1,11 @@
+method,tier,overall,Smooth,Erratic,Intermittent,Lumpy
+Naive,classical,1.163,1.017,0.938,1.352,1.509
+SMA,classical,1.03,0.882,0.861,1.208,1.385
+SES,classical,0.999,0.857,0.838,1.165,1.361
+Croston,classical,1.154,0.914,0.908,1.458,1.642
+SBA,classical,1.144,0.917,0.899,1.432,1.614
+LightGBM,trained,0.951,0.812,0.79,1.12,1.272
+NHITS,trained,0.958,0.829,0.798,1.113,1.275
+DeepAR,trained,0.972,0.834,0.81,1.135,1.319
+Chronos-Bolt-Small,zero-shot,0.982,0.845,0.803,1.149,1.31
+TimesFM-200M,zero-shot,0.982,0.846,0.805,1.151,1.306
