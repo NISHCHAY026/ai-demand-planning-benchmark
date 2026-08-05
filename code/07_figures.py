@@ -68,13 +68,17 @@ for j,ds in enumerate(['m5','or2']):
     b2=ax.bar(x+w/2,inv['oos_PB_pct'],w,label='Out-of-sample (rolling origin)',color=NAVY,edgecolor='k',lw=.5)
     ax.set_xticks(x); ax.set_xticklabels(CLS,fontsize=9)
     ax.set_ylabel('Percentage-Best (% of series)'); ax.set_title(DSNAME[ds],fontsize=10)
-    ax.legend(fontsize=8,frameon=False)
+    # Headroom for the two-line annotation below. Without an explicit limit the label
+    # starts at the top of the axes and overruns it into the panel title.
+    ax.set_ylim(0, max(inv['insample_PB_pct'].max(), inv['oos_PB_pct'].max())*1.34)
+    ax.legend(fontsize=8,frameon=False,loc='upper left')
     # annotate the collapse of each panel's IN-SAMPLE champion
     champ=inv['insample_PB_pct'].idxmax(); xi=CLS.index(champ)
     ci=inv.loc[champ,'insample_PB_pct']; co=inv.loc[champ,'oos_PB_pct']
     ax.annotate('',xy=(xi+w/2,co+1.5),xytext=(xi-w/2,ci+1.5),
                 arrowprops=dict(arrowstyle='->',color='#C0392B',lw=1.6))
-    ax.text(xi,ci+3.5,f'{champ}\n{ci:.0f}%→{co:.0f}%',ha='center',color='#C0392B',fontsize=8.5,fontweight='bold')
+    ax.text(xi,ci+3.5,f'{champ}\n{ci:.0f}%→{co:.0f}%',ha='center',va='bottom',
+            color='#C0392B',fontsize=8.5,fontweight='bold')
 fig.suptitle('Figure 2.  The in-sample → out-of-sample inversion. Methods that look best when scored on the '
              'history used to fit them are not those that generalise.',fontsize=10,y=1.02)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig2_inversion.png'); plt.close(fig)
@@ -86,7 +90,11 @@ for j,ds in enumerate(['m5','or2']):
     ov=pd.read_csv(fr'{RES}\{ds}_overall.csv').set_index('method').reindex(ORDER)
     ax=axes[j]
     bars=ax.bar(range(len(ORDER)),ov['mean_MASE'],color=[MCOL[m] for m in ORDER],edgecolor='k',lw=.6)
-    ax.axhline(1.0,color='#C0392B',ls='--',lw=1); ax.text(0.1,1.02,'naïve benchmark (MASE=1)',color='#C0392B',fontsize=7.5)
+    ax.axhline(1.0,color='#C0392B',ls='--',lw=1)
+    # Axes-fraction placement, above every bar. At data y=1.02 this label sat exactly
+    # where the per-bar value labels are drawn (bar height + 0.01) and overprinted them.
+    ax.text(0.02,0.97,'naïve benchmark (MASE = 1)',transform=ax.transAxes,
+            ha='left',va='top',color='#C0392B',fontsize=7.5)
     ax.set_xticks(range(len(ORDER))); ax.set_xticklabels([m.replace(' (AI)','\n(AI)') for m in ORDER],fontsize=8.5)
     ax.set_ylabel('mean OOS MASE  (lower = better)'); ax.set_title(DSNAME[ds],fontsize=10)
     for b,v in zip(bars,ov['mean_MASE']): ax.text(b.get_x()+b.get_width()/2,v+0.01,f'{v:.3f}',ha='center',fontsize=7.5)
