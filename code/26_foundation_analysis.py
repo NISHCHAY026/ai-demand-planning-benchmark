@@ -20,7 +20,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), 'results')
 
 CLASSICAL = [('naive_mase', 'Naive'), ('sma_mase', 'SMA'), ('ses_mase', 'SES'),
-             ('croston_mase', 'Croston'), ('sba_mase', 'SBA')]
+             ('croston_mase', 'Croston'), ('sba_mase', 'SBA'), ('tsb_mase', 'TSB'),
+             ('adida_mase', 'ADIDA'), ('mapa_mase', 'MAPA')]
 TRAINED = [('lgbm_mase', 'LightGBM'), ('nhits_mase', 'NHITS'), ('deepar_mase', 'DeepAR')]
 ZEROSHOT = [('chronos_bolt_small_mase', 'Chronos-Bolt-Small'),
             ('chronos_bolt_base_mase', 'Chronos-Bolt-Base'),

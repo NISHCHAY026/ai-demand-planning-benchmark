@@ -1,5 +1,5 @@
 import os, numpy as np, pandas as pd
-DATA = r'D:\Research Pack\AI_Demand_Planning_Paper\data'
+DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib
 

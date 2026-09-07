@@ -11,7 +11,7 @@ which of those matches the decision they are making.
 
 Writes results/{ds}_managerial.csv and results/managerial_summary.json
 """
-import os, json
+import os, json, json
 import numpy as np, pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +20,10 @@ CLASSES = ['Smooth', 'Erratic', 'Intermittent', 'Lumpy']
 
 TIER = {'Naive': 'simple', 'SMA': 'simple', 'SES': 'simple',
         'Croston': 'intermittent-specialist', 'SBA': 'intermittent-specialist',
+        'TSB': 'intermittent-specialist',
+        'ADIDA': 'temporal aggregation', 'MAPA': 'temporal aggregation',
         'LightGBM': 'trained ML', 'LightGBM (AI)': 'trained ML',
+        'LightGBM (global)': 'trained ML',
         'NHITS': 'trained deep', 'DeepAR': 'trained deep',
         'Chronos-Bolt-Small': 'zero-shot', 'Chronos-Bolt-Base': 'zero-shot',
         'TimesFM-200M': 'zero-shot'}
@@ -29,6 +32,13 @@ out = {}
 for ds, label in (('m5', 'M5 (dense)'), ('or2', 'Online Retail II (sparse)')):
     acc = pd.read_csv(os.path.join(RES, f'{ds}_foundation_table.csv'))
     pb = pd.read_csv(os.path.join(RES, f'{ds}_by_class_pb.csv')).set_index('class')
+    # The accuracy columns come from foundation_table, which is scored on the subset where
+    # every method including the neural and pretrained ones has a forecast. The n column used
+    # to be taken from by_class_pb, which counts the WIDER eligible set, so each row reported a
+    # sample size larger than the sample its own numbers were computed on. On the sparse panel
+    # that was a factor of two (OR2 Smooth: 194 labelled against 94 scored). Take n from the
+    # same place the accuracy comes from.
+    common_n = json.load(open(os.path.join(RES, 'foundation_summary.json')))[ds]['class_n']
     pbcols = [c for c in pb.columns if c != 'n']
 
     rows = []
@@ -45,7 +55,8 @@ for ds, label in (('m5', 'M5 (dense)'), ('or2', 'Online Retail II (sparse)')):
         best_pb, best_pb_v = pbrow.idxmax(), float(pbrow.max())
         rows.append({
             'class': cl,
-            'n': int(pb.loc[cl, 'n']),
+            'n': int(common_n[cl]),
+            'n_eligible_set': int(pb.loc[cl, 'n']),
             'best_by_mean_MASE': best_acc,
             'mean_MASE': round(best_acc_v, 3),
             'runner_up': runner,

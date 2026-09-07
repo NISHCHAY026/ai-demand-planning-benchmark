@@ -1,66 +1,67 @@
 {
   "dataset": "or2",
   "steps": 500,
-  "n_scored": 4133,
-  "NHITS_mean_MASE": 0.723,
-  "NHITS_median_MASE": 0.275,
-  "DeepAR_mean_MASE": 0.755,
-  "DeepAR_median_MASE": 0.277,
-  "subset_n": 4133,
+  "n_scored": 4094,
+  "NHITS_mean_MASE": 0.663,
+  "NHITS_median_MASE": 0.263,
+  "DeepAR_mean_MASE": 0.705,
+  "DeepAR_median_MASE": 0.27,
+  "subset_n": 4094,
   "subset_comparison_mean_median": {
     "Naive": [
-      0.938,
-      0.374
-    ],
-    "SMA": [
-      0.872,
+      0.895,
       0.357
     ],
+    "SMA": [
+      0.817,
+      0.332
+    ],
     "SES": [
-      0.836,
-      0.402
+      0.781,
+      0.388
     ],
     "Croston": [
-      1.141,
-      0.77
+      1.08,
+      0.74
     ],
     "SBA": [
-      1.109,
-      0.742
+      1.048,
+      0.709
     ],
     "LightGBM": [
-      0.911,
-      0.5
+      0.821,
+      0.463
     ],
     "NHITS": [
-      0.723,
-      0.275
+      0.663,
+      0.263
     ],
     "DeepAR": [
-      0.755,
-      0.277
+      0.705,
+      0.27
     ]
   },
   "by_class": {
     "Smooth": {
-      "n": 267,
-      "NHITS": 0.797,
-      "DeepAR": 0.765
-    },
-    "Intermittent": {
-      "n": 620,
-      "NHITS": 0.403,
-      "DeepAR": 0.4
-    },
-    "Erratic": {
-      "n": 1288,
-      "NHITS": 0.826,
+      "n": 94,
+      "NHITS": 0.843,
       "DeepAR": 0.835
     },
+    "Intermittent": {
+      "n": 611,
+      "NHITS": 0.743,
+      "DeepAR": 0.734
+    },
+    "Erratic": {
+      "n": 1034,
+      "NHITS": 0.699,
+      "DeepAR": 0.715
+    },
     "Lumpy": {
-      "n": 2532,
-      "NHITS": 0.75,
-      "DeepAR": 0.803
+      "n": 2355,
+      "NHITS": 0.62,
+      "DeepAR": 0.687
     }
-  }
+  },
+  "class_source": "training-window classification (02_classify.py)"
 }

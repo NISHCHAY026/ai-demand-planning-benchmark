@@ -1,16 +1,19 @@
 {
   "m5": {
     "core6_fullset": {
-      "N": 30461,
-      "K": 6,
-      "critical_distance": 0.043,
+      "N": 30460,
+      "K": 9,
+      "critical_distance": 0.069,
       "mean_ranks": {
-        "Naive": 4.923,
-        "SMA": 3.794,
-        "SES": 3.058,
-        "Croston": 3.536,
-        "SBA": 3.377,
-        "LightGBM (AI)": 2.312
+        "Naive": 7.334,
+        "SMA": 5.718,
+        "SES": 4.532,
+        "Croston": 5.205,
+        "SBA": 5.211,
+        "TSB": 4.257,
+        "ADIDA": 4.572,
+        "MAPA": 4.648,
+        "LightGBM (global)": 3.523
       },
       "sig_worse_than_best": {
         "Naive": true,
@@ -18,22 +21,28 @@
         "SES": true,
         "Croston": true,
         "SBA": true,
-        "LightGBM (AI)": false
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": false
       }
     },
     "all8_subset": {
-      "N": 29569,
-      "K": 8,
-      "critical_distance": 0.061,
+      "N": 29486,
+      "K": 11,
+      "critical_distance": 0.088,
       "mean_ranks": {
-        "Naive": 6.711,
-        "SMA": 5.375,
-        "SES": 4.402,
-        "Croston": 4.832,
-        "SBA": 4.661,
-        "LightGBM (AI)": 3.167,
-        "NHITS": 3.319,
-        "DeepAR": 3.533
+        "Naive": 9.109,
+        "SMA": 7.266,
+        "SES": 5.84,
+        "Croston": 6.481,
+        "SBA": 6.537,
+        "TSB": 5.519,
+        "ADIDA": 5.871,
+        "MAPA": 5.903,
+        "LightGBM (global)": 4.446,
+        "NHITS": 4.521,
+        "DeepAR": 4.506
       },
       "sig_worse_than_best": {
         "Naive": true,
@@ -41,24 +50,88 @@
         "SES": true,
         "Croston": true,
         "SBA": true,
-        "LightGBM (AI)": false,
-        "NHITS": true,
-        "DeepAR": true
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": false,
+        "NHITS": false,
+        "DeepAR": false
+      }
+    },
+    "core6_product_clustered": {
+      "N_clusters": 3049,
+      "K": 9,
+      "critical_distance": 0.218,
+      "mean_ranks": {
+        "Naive": 7.334,
+        "SMA": 5.717,
+        "SES": 4.532,
+        "Croston": 5.206,
+        "SBA": 5.211,
+        "TSB": 4.257,
+        "ADIDA": 4.572,
+        "MAPA": 4.648,
+        "LightGBM (global)": 3.523
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": false
+      }
+    },
+    "all8_product_clustered": {
+      "N_clusters": 3016,
+      "K": 11,
+      "critical_distance": 0.275,
+      "mean_ranks": {
+        "Naive": 9.111,
+        "SMA": 7.261,
+        "SES": 5.842,
+        "Croston": 6.49,
+        "SBA": 6.545,
+        "TSB": 5.521,
+        "ADIDA": 5.873,
+        "MAPA": 5.904,
+        "LightGBM (global)": 4.433,
+        "NHITS": 4.514,
+        "DeepAR": 4.505
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": false,
+        "NHITS": false,
+        "DeepAR": false
       }
     }
   },
   "or2": {
     "core6_fullset": {
-      "N": 4317,
-      "K": 6,
-      "critical_distance": 0.115,
+      "N": 4284,
+      "K": 9,
+      "critical_distance": 0.184,
       "mean_ranks": {
-        "Naive": 3.326,
-        "SMA": 2.769,
-        "SES": 2.913,
-        "Croston": 4.358,
-        "SBA": 3.601,
-        "LightGBM (AI)": 4.033
+        "Naive": 4.877,
+        "SMA": 3.979,
+        "SES": 4.211,
+        "Croston": 6.542,
+        "SBA": 5.616,
+        "TSB": 5.075,
+        "ADIDA": 4.228,
+        "MAPA": 4.453,
+        "LightGBM (global)": 6.019
       },
       "sig_worse_than_best": {
         "Naive": true,
@@ -66,22 +139,28 @@
         "SES": true,
         "Croston": true,
         "SBA": true,
-        "LightGBM (AI)": true
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": true
       }
     },
     "all8_subset": {
-      "N": 4008,
-      "K": 8,
-      "critical_distance": 0.166,
+      "N": 3977,
+      "K": 11,
+      "critical_distance": 0.239,
       "mean_ranks": {
-        "Naive": 4.492,
-        "SMA": 3.888,
-        "SES": 4.223,
-        "Croston": 6.012,
-        "SBA": 5.188,
-        "LightGBM (AI)": 5.806,
-        "NHITS": 3.681,
-        "DeepAR": 2.71
+        "Naive": 5.983,
+        "SMA": 5.048,
+        "SES": 5.514,
+        "Croston": 8.237,
+        "SBA": 7.268,
+        "TSB": 6.425,
+        "ADIDA": 5.475,
+        "MAPA": 5.72,
+        "LightGBM (global)": 7.781,
+        "NHITS": 4.829,
+        "DeepAR": 3.721
       },
       "sig_worse_than_best": {
         "Naive": true,
@@ -89,7 +168,68 @@
         "SES": true,
         "Croston": true,
         "SBA": true,
-        "LightGBM (AI)": true,
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": true,
+        "NHITS": true,
+        "DeepAR": false
+      }
+    },
+    "core6_product_clustered": {
+      "N_clusters": 4284,
+      "K": 9,
+      "critical_distance": 0.184,
+      "mean_ranks": {
+        "Naive": 4.877,
+        "SMA": 3.979,
+        "SES": 4.211,
+        "Croston": 6.542,
+        "SBA": 5.616,
+        "TSB": 5.075,
+        "ADIDA": 4.228,
+        "MAPA": 4.453,
+        "LightGBM (global)": 6.019
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": false,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": true
+      }
+    },
+    "all8_product_clustered": {
+      "N_clusters": 3977,
+      "K": 11,
+      "critical_distance": 0.239,
+      "mean_ranks": {
+        "Naive": 5.983,
+        "SMA": 5.048,
+        "SES": 5.514,
+        "Croston": 8.237,
+        "SBA": 7.268,
+        "TSB": 6.425,
+        "ADIDA": 5.475,
+        "MAPA": 5.72,
+        "LightGBM (global)": 7.781,
+        "NHITS": 4.829,
+        "DeepAR": 3.721
+      },
+      "sig_worse_than_best": {
+        "Naive": true,
+        "SMA": true,
+        "SES": true,
+        "Croston": true,
+        "SBA": true,
+        "TSB": true,
+        "ADIDA": true,
+        "MAPA": true,
+        "LightGBM (global)": true,
         "NHITS": true,
         "DeepAR": false
       }

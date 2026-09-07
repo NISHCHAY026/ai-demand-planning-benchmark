@@ -85,7 +85,18 @@ def chronos_rolling(pipe, Y, fa, elig, split, T, ckpt):
             fc += len(rows)
             del ctxs, q, _m
         tmp = ckpt + '.tmp.npy'
-        np.save(tmp, F); os.replace(tmp, ckpt)     # atomic per-origin checkpoint
+        np.save(tmp, F)
+        # os.replace occasionally loses a race with a virus scanner or the search indexer
+        # on Windows and raises PermissionError. The checkpoint is an optimisation, not a
+        # result, so retry briefly and carry on rather than throwing away the whole run.
+        for _try in range(8):
+            try:
+                os.replace(tmp, ckpt); break
+            except PermissionError:
+                time.sleep(0.5 * (_try + 1))
+        else:
+            print(f'    WARNING: could not update {os.path.basename(ckpt)} after 8 tries; '
+                  'continuing without a checkpoint for this origin', flush=True)
         gc.collect()
         el = time.time() - t0
         print(f'    origin {k+1}/{len(todo)} (week {t}) saved  {fc/max(el,1e-9):,.0f} fc/s  '

@@ -16,8 +16,10 @@ mpl.rcParams.update({'font.family':'serif','font.size':10,'axes.titlesize':11,
     'axes.labelsize':10,'axes.edgecolor':'#444','axes.linewidth':0.8,
     'figure.dpi':120,'savefig.dpi':300,'savefig.bbox':'tight'})
 NAVY='#1E2761'; GOLD='#C9A227'
-MCOL={'Naive':'#9AA0A6','SMA':'#7FB3D5','SES':'#16A085','Croston':'#E59866','SBA':'#C0392B','LightGBM (AI)':NAVY}
-ORDER=['Naive','SMA','SES','Croston','SBA','LightGBM (AI)']
+MCOL={'Naive':'#9AA0A6','SMA':'#7FB3D5','SES':'#16A085','Croston':'#E59866','SBA':'#C0392B',
+      'TSB':'#8E44AD','ADIDA':'#D4AC0D','MAPA':'#5D6D7E','LightGBM (global)':NAVY}
+ORDER=['Naive','SMA','SES','Croston','SBA','TSB','ADIDA','MAPA','LightGBM (global)']
+DISP={m: m for m in ORDER}
 DSNAME={'m5':'M5 (Walmart, weekly)','or2':'Online Retail II (weekly)'}
 
 def load_results(ds):
@@ -58,7 +60,7 @@ print('fig1 done')
 
 # ============================ FIGURE 2: in-sample / OOS inversion ============================
 fig,axes=plt.subplots(1,2,figsize=(10,4.2))
-CLS=['Naive','SMA','SES','Croston','SBA']
+CLS=['Naive','SMA','SES','Croston','SBA','TSB','ADIDA','MAPA']
 for j,ds in enumerate(['m5','or2']):
     inv=pd.read_csv(fr'{RES}\{ds}_inversion.csv')
     inv=inv.set_index('method').reindex(CLS)
@@ -95,13 +97,13 @@ for j,ds in enumerate(['m5','or2']):
     # where the per-bar value labels are drawn (bar height + 0.01) and overprinted them.
     ax.text(0.02,0.97,'naïve benchmark (MASE = 1)',transform=ax.transAxes,
             ha='left',va='top',color='#C0392B',fontsize=7.5)
-    ax.set_xticks(range(len(ORDER))); ax.set_xticklabels([m.replace(' (AI)','\n(AI)') for m in ORDER],fontsize=8.5)
+    ax.set_xticks(range(len(ORDER))); ax.set_xticklabels([DISP[m].replace(' (global)','\n(global)') for m in ORDER],fontsize=8.5)
     ax.set_ylabel('mean OOS MASE  (lower = better)'); ax.set_title(DSNAME[ds],fontsize=10)
     for b,v in zip(bars,ov['mean_MASE']): ax.text(b.get_x()+b.get_width()/2,v+0.01,f'{v:.3f}',ha='center',fontsize=7.5)
     ax.set_ylim(0,max(ov['mean_MASE'])*1.18)
-fig.suptitle('Figure 3.  Out-of-sample accuracy across both datasets. The global AI model (LightGBM) leads on M5; '
-             'with strictly causal features, tuned simple smoothing leads on Online Retail II. Croston/SBA are '
-             'weakest at this one-step horizon (see Section 5.10).',fontsize=9.5,y=1.02)
+fig.suptitle('Figure 3.  Out-of-sample accuracy across both datasets. The global machine-learning model (LightGBM) '
+             'leads on M5; with strictly causal features, tuned simple smoothing leads on Online Retail II. '
+             'Croston/SBA are weakest at this one-step horizon (see Section 5.6).',fontsize=9.5,y=1.02)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig3_overall_mase.png'); plt.close(fig)
 print('fig3 done')
 
@@ -110,14 +112,16 @@ fig,axes=plt.subplots(1,2,figsize=(10,4.4))
 CLASSES=['Smooth','Intermittent','Erratic','Lumpy']
 for j,ds in enumerate(['m5','or2']):
     pbc=pd.read_csv(fr'{RES}\{ds}_by_class_pb.csv').set_index('class').reindex(CLASSES)
-    ax=axes[j]; x=np.arange(len(CLASSES)); w=0.13
+    ax=axes[j]; x=np.arange(len(CLASSES)); w=0.093
     for i,m in enumerate(ORDER):
-        ax.bar(x+(i-2.5)*w,pbc[m],w,color=MCOL[m],edgecolor='k',lw=.3,label=m if j==0 else None)
+        ax.bar(x+(i-(len(ORDER)-1)/2)*w,pbc[m],w,color=MCOL[m],edgecolor='k',lw=.3,
+               label=DISP[m] if j==0 else None)
     ax.set_xticks(x); ax.set_xticklabels(CLASSES,fontsize=9)
     ax.set_ylabel('Percentage-Best (%)'); ax.set_title(DSNAME[ds],fontsize=10)
-fig.legend(ORDER,loc='upper center',ncol=6,fontsize=8,frameon=False,bbox_to_anchor=(0.5,1.07))
-fig.suptitle('Figure 4.  Which method wins, by demand class (ties split fractionally). AI dominates every M5 class; '
-             'on OR2 the zero-forecasting simple methods take the sparse Intermittent/Lumpy classes.',fontsize=9.5,y=1.005)
+fig.legend([DISP[m] for m in ORDER],loc='upper center',ncol=9,fontsize=7.5,frameon=False,bbox_to_anchor=(0.5,1.07))
+fig.suptitle('Figure 4.  Which method wins, by demand class (ties split fractionally). The machine-learning model '
+             'dominates every M5 class; on OR2 the zero-forecasting simple methods take the sparse '
+             'Intermittent/Lumpy classes.',fontsize=9.5,y=1.005)
 fig.tight_layout(rect=[0,0,1,0.98]); fig.savefig(fr'{FIG}\fig4_by_class.png'); plt.close(fig)
 print('fig4 done')
 
@@ -127,13 +131,14 @@ for j,ds in enumerate(['m5','or2']):
     bv=pd.read_csv(fr'{RES}\{ds}_by_volume.csv')
     ax=axes[j]
     for m in ORDER:
-        ax.plot(bv['decile'],bv[m],marker='o',ms=3.5,lw=1.6,color=MCOL[m],label=m)
+        ax.plot(bv['decile'],bv[m],marker='o',ms=3.5,lw=1.6,color=MCOL[m],label=DISP[m])
     ax.set_xlabel('out-of-sample demand-volume decile (low → high)')
     ax.set_ylabel('Percentage-Best (%)'); ax.set_title(DSNAME[ds],fontsize=10)
     ax.set_xticks(range(1,11))
     if j==1: ax.legend(fontsize=7.5,frameon=False,ncol=2)
 fig.suptitle('Figure 5.  Win-shares across demand-volume deciles. Simple methods own the near-zero tail; on M5 the '
-             'AI model rises monotonically with density; on OR2, SBA peaks in its recurring mid-volume niche.',fontsize=9.5,y=1.02)
+             'machine-learning model rises monotonically with density; on OR2, SBA peaks in its recurring '
+             'mid-volume niche.',fontsize=9.5,y=1.02)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig5_by_volume.png'); plt.close(fig)
 print('fig5 done')
 
@@ -143,8 +148,10 @@ for j,ds in enumerate(['m5','or2']):
     rb=pd.read_csv(fr'{RES}\{ds}_robustness.csv')
     ax=axes[j]
     for m in ORDER:
-        col = 'LightGBM' if m=='LightGBM (AI)' else m
-        ax.plot(rb['test_weeks'],rb[col],marker='s',ms=4,lw=1.6,color=MCOL[m],label=m)
+        col = 'LightGBM' if m.startswith('LightGBM') else m
+        if col not in rb.columns:      # ADIDA is not part of the robustness sweep
+            continue
+        ax.plot(rb['test_weeks'],rb[col],marker='s',ms=4,lw=1.6,color=MCOL[m],label=DISP[m])
     ax.set_xlabel('hold-out window (weeks)'); ax.set_ylabel('mean OOS MASE')
     ax.set_title(f'{DSNAME[ds]}: ranking stability',fontsize=9.5)
     ax.set_xticks(rb['test_weeks'])
@@ -155,8 +162,9 @@ ax=axes[2]
 ax.barh(range(len(imp)),imp['gain']/imp['gain'].sum()*100,color=NAVY,edgecolor='k',lw=.4)
 ax.set_yticks(range(len(imp))); ax.set_yticklabels(imp['feature'],fontsize=8)
 ax.set_xlabel('% of total gain'); ax.set_title('LightGBM drivers (M5)',fontsize=9.5)
-fig.suptitle('Figure 6.  Ranking is stable across hold-out horizons (left, centre). On M5 the AI model is driven '
-             'overwhelmingly by recent-demand aggregates; price features carry under 1% of total gain (right).',
+fig.suptitle('Figure 6.  Ranking is stable across hold-out horizons (left, centre). On M5 the machine-learning '
+             'model is driven overwhelmingly by recent-demand aggregates; price features carry under 1% of total '
+             'gain (right).',
              fontsize=9.5,y=1.03)
 fig.tight_layout(); fig.savefig(fr'{FIG}\fig6_robustness.png'); plt.close(fig)
 print('fig6 done')

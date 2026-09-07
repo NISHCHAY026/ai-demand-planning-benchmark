@@ -2,31 +2,40 @@
   "m5": {
     "core6_fullset": {
       "mean_RMSSE": {
-        "Naive": 1.021,
-        "SMA": 0.877,
-        "SES": 0.842,
-        "Croston": 0.91,
-        "SBA": 0.909,
-        "LightGBM (AI)": 0.798
+        "Naive": 1.001,
+        "SMA": 0.858,
+        "SES": 0.823,
+        "Croston": 0.9,
+        "SBA": 0.905,
+        "TSB": 0.826,
+        "ADIDA": 0.825,
+        "MAPA": 0.835,
+        "LightGBM (global)": 0.789
       },
       "median_RMSSE": {
-        "Naive": 0.956,
-        "SMA": 0.808,
-        "SES": 0.773,
-        "Croston": 0.795,
-        "SBA": 0.798,
-        "LightGBM (AI)": 0.733
+        "Naive": 0.937,
+        "SMA": 0.79,
+        "SES": 0.757,
+        "Croston": 0.782,
+        "SBA": 0.79,
+        "TSB": 0.755,
+        "ADIDA": 0.759,
+        "MAPA": 0.762,
+        "LightGBM (global)": 0.724
       },
       "mcb": {
-        "N": 30461,
-        "critical_distance": 0.043,
+        "N": 30460,
+        "critical_distance": 0.069,
         "mean_ranks": {
-          "Naive": 5.33,
-          "SMA": 4.03,
-          "SES": 2.948,
-          "Croston": 3.254,
-          "SBA": 3.484,
-          "LightGBM (AI)": 1.954
+          "Naive": 7.919,
+          "SMA": 6.17,
+          "SES": 4.42,
+          "Croston": 4.89,
+          "SBA": 5.579,
+          "TSB": 3.975,
+          "ADIDA": 4.525,
+          "MAPA": 4.462,
+          "LightGBM (global)": 3.06
         },
         "sig_worse_than_best": {
           "Naive": true,
@@ -34,81 +43,105 @@
           "SES": true,
           "Croston": true,
           "SBA": true,
-          "LightGBM (AI)": false
+          "TSB": true,
+          "ADIDA": true,
+          "MAPA": true,
+          "LightGBM (global)": false
         }
       }
     },
     "core6_by_class": {
       "Smooth": {
-        "n": 15985,
-        "Naive": 0.981,
-        "SMA": 0.841,
-        "SES": 0.81,
-        "Croston": 0.847,
-        "SBA": 0.852,
-        "LightGBM (AI)": 0.768
+        "n": 15731,
+        "Naive": 0.953,
+        "SMA": 0.815,
+        "SES": 0.786,
+        "Croston": 0.831,
+        "SBA": 0.843,
+        "TSB": 0.789,
+        "ADIDA": 0.788,
+        "MAPA": 0.798,
+        "LightGBM (global)": 0.754
       },
       "Intermittent": {
-        "n": 10039,
-        "Naive": 1.099,
-        "SMA": 0.934,
-        "SES": 0.892,
-        "Croston": 1.004,
-        "SBA": 0.996,
-        "LightGBM (AI)": 0.847
+        "n": 10419,
+        "Naive": 1.123,
+        "SMA": 0.956,
+        "SES": 0.913,
+        "Croston": 1.042,
+        "SBA": 1.037,
+        "TSB": 0.915,
+        "ADIDA": 0.914,
+        "MAPA": 0.924,
+        "LightGBM (global)": 0.875
       },
       "Erratic": {
-        "n": 1958,
-        "Naive": 0.862,
-        "SMA": 0.777,
-        "SES": 0.748,
-        "Croston": 0.789,
-        "SBA": 0.788,
-        "LightGBM (AI)": 0.704
+        "n": 1849,
+        "Naive": 0.782,
+        "SMA": 0.692,
+        "SES": 0.666,
+        "Croston": 0.707,
+        "SBA": 0.714,
+        "TSB": 0.669,
+        "ADIDA": 0.667,
+        "MAPA": 0.684,
+        "LightGBM (global)": 0.63
       },
       "Lumpy": {
-        "n": 2479,
-        "Naive": 1.086,
-        "SMA": 0.96,
-        "SES": 0.914,
-        "Croston": 1.03,
-        "SBA": 1.021,
-        "LightGBM (AI)": 0.866
+        "n": 2461,
+        "Naive": 0.964,
+        "SMA": 0.845,
+        "SES": 0.801,
+        "Croston": 0.888,
+        "SBA": 0.881,
+        "TSB": 0.799,
+        "ADIDA": 0.803,
+        "MAPA": 0.811,
+        "LightGBM (global)": 0.762
       }
     },
     "all8_subset": {
       "mean_RMSSE": {
-        "Naive": 1.018,
-        "SMA": 0.874,
-        "SES": 0.839,
-        "Croston": 0.907,
-        "SBA": 0.906,
-        "LightGBM (AI)": 0.795,
-        "NHITS": 0.824,
-        "DeepAR": 0.825
+        "Naive": 0.998,
+        "SMA": 0.855,
+        "SES": 0.82,
+        "Croston": 0.896,
+        "SBA": 0.901,
+        "TSB": 0.822,
+        "ADIDA": 0.822,
+        "MAPA": 0.832,
+        "LightGBM (global)": 0.786,
+        "NHITS": 0.815,
+        "DeepAR": 0.81
       },
       "median_RMSSE": {
-        "Naive": 0.953,
-        "SMA": 0.806,
-        "SES": 0.771,
-        "Croston": 0.793,
-        "SBA": 0.797,
-        "LightGBM (AI)": 0.732,
-        "NHITS": 0.76,
-        "DeepAR": 0.759
+        "Naive": 0.934,
+        "SMA": 0.787,
+        "SES": 0.755,
+        "Croston": 0.779,
+        "SBA": 0.788,
+        "TSB": 0.753,
+        "ADIDA": 0.757,
+        "MAPA": 0.76,
+        "LightGBM (global)": 0.723,
+        "NHITS": 0.751,
+        "DeepAR": 0.745
       },
       "mcb": {
-        "N": 29569,
-        "critical_distance": 0.061,
+        "N": 29486,
+        "critical_distance": 0.088,
         "mean_ranks": {
-          "Naive": 7.215,
-          "SMA": 5.677,
-          "SES": 4.169,
-          "Croston": 4.426,
-          "SBA": 4.74,
-          "LightGBM (AI)": 2.501,
-          "NHITS": 3.736,
-          "DeepAR": 3.535
+          "Naive": 9.773,
+          "SMA": 7.728,
+          "SES": 5.527,
+          "Croston": 5.982,
+          "SBA": 6.843,
+          "TSB": 4.997,
+          "ADIDA": 5.645,
+          "MAPA": 5.491,
+          "LightGBM (global)": 3.646,
+          "NHITS": 5.603,
+          "DeepAR": 4.763
         },
         "sig_worse_than_best": {
           "Naive": true,
@@ -116,7 +149,10 @@
           "SES": true,
           "Croston": true,
           "SBA": true,
-          "LightGBM (AI)": false,
+          "TSB": true,
+          "ADIDA": true,
+          "MAPA": true,
+          "LightGBM (global)": false,
           "NHITS": true,
           "DeepAR": true
         }
@@ -126,31 +162,40 @@
   "or2": {
     "core6_fullset": {
       "mean_RMSSE": {
-        "Naive": 0.85,
-        "SMA": 0.737,
-        "SES": 0.714,
-        "Croston": 0.822,
-        "SBA": 0.812,
-        "LightGBM (AI)": 0.747
+        "Naive": 0.8,
+        "SMA": 0.678,
+        "SES": 0.654,
+        "Croston": 0.759,
+        "SBA": 0.751,
+        "TSB": 0.665,
+        "ADIDA": 0.657,
+        "MAPA": 0.66,
+        "LightGBM (global)": 0.676
       },
       "median_RMSSE": {
-        "Naive": 0.368,
-        "SMA": 0.326,
-        "SES": 0.318,
-        "Croston": 0.405,
-        "SBA": 0.392,
-        "LightGBM (AI)": 0.372
+        "Naive": 0.348,
+        "SMA": 0.303,
+        "SES": 0.301,
+        "Croston": 0.385,
+        "SBA": 0.373,
+        "TSB": 0.316,
+        "ADIDA": 0.307,
+        "MAPA": 0.308,
+        "LightGBM (global)": 0.333
       },
       "mcb": {
-        "N": 4317,
-        "critical_distance": 0.115,
+        "N": 4284,
+        "critical_distance": 0.184,
         "mean_ranks": {
-          "Naive": 3.758,
-          "SMA": 2.899,
-          "SES": 2.841,
-          "Croston": 4.008,
-          "SBA": 3.691,
-          "LightGBM (AI)": 3.803
+          "Naive": 5.541,
+          "SMA": 4.346,
+          "SES": 4.18,
+          "Croston": 6.066,
+          "SBA": 5.764,
+          "TSB": 4.694,
+          "ADIDA": 4.227,
+          "MAPA": 4.379,
+          "LightGBM (global)": 5.804
         },
         "sig_worse_than_best": {
           "Naive": true,
@@ -158,89 +203,116 @@
           "SES": false,
           "Croston": true,
           "SBA": true,
-          "LightGBM (AI)": true
+          "TSB": true,
+          "ADIDA": false,
+          "MAPA": true,
+          "LightGBM (global)": true
         }
       }
     },
     "core6_by_class": {
       "Smooth": {
-        "n": 182,
-        "Naive": 1.128,
-        "SMA": 0.952,
-        "SES": 0.986,
-        "Croston": 1.041,
-        "SBA": 1.032,
-        "LightGBM (AI)": 1.058
+        "n": 194,
+        "Naive": 1.383,
+        "SMA": 1.152,
+        "SES": 1.193,
+        "Croston": 1.258,
+        "SBA": 1.257,
+        "TSB": 1.252,
+        "ADIDA": 1.209,
+        "MAPA": 1.221,
+        "LightGBM (global)": 1.214
       },
       "Intermittent": {
-        "n": 445,
-        "Naive": 0.44,
-        "SMA": 0.372,
-        "SES": 0.346,
-        "Croston": 0.483,
-        "SBA": 0.48,
-        "LightGBM (AI)": 0.431
+        "n": 520,
+        "Naive": 1.18,
+        "SMA": 1.002,
+        "SES": 0.94,
+        "Croston": 1.076,
+        "SBA": 1.078,
+        "TSB": 0.948,
+        "ADIDA": 0.941,
+        "MAPA": 0.933,
+        "LightGBM (global)": 0.975
       },
       "Erratic": {
-        "n": 1176,
-        "Naive": 1.07,
-        "SMA": 0.916,
-        "SES": 0.903,
-        "Croston": 0.932,
-        "SBA": 0.924,
-        "LightGBM (AI)": 0.929
+        "n": 1173,
+        "Naive": 0.871,
+        "SMA": 0.727,
+        "SES": 0.703,
+        "Croston": 0.733,
+        "SBA": 0.727,
+        "TSB": 0.719,
+        "ADIDA": 0.707,
+        "MAPA": 0.712,
+        "LightGBM (global)": 0.728
       },
       "Lumpy": {
-        "n": 2514,
-        "Naive": 0.799,
-        "SMA": 0.703,
-        "SES": 0.671,
-        "Croston": 0.814,
-        "SBA": 0.803,
-        "LightGBM (AI)": 0.696
+        "n": 2397,
+        "Naive": 0.636,
+        "SMA": 0.546,
+        "SES": 0.524,
+        "Croston": 0.662,
+        "SBA": 0.65,
+        "TSB": 0.53,
+        "ADIDA": 0.527,
+        "MAPA": 0.529,
+        "LightGBM (global)": 0.542
       }
     },
     "all8_subset": {
       "mean_RMSSE": {
-        "Naive": 0.745,
-        "SMA": 0.652,
-        "SES": 0.623,
-        "Croston": 0.731,
-        "SBA": 0.722,
-        "LightGBM (AI)": 0.662,
-        "NHITS": 0.639,
-        "DeepAR": 0.652
+        "Naive": 0.693,
+        "SMA": 0.589,
+        "SES": 0.56,
+        "Croston": 0.665,
+        "SBA": 0.657,
+        "TSB": 0.565,
+        "ADIDA": 0.563,
+        "MAPA": 0.563,
+        "LightGBM (global)": 0.587,
+        "NHITS": 0.57,
+        "DeepAR": 0.589
       },
       "median_RMSSE": {
-        "Naive": 0.297,
-        "SMA": 0.26,
-        "SES": 0.268,
-        "Croston": 0.374,
-        "SBA": 0.364,
-        "LightGBM (AI)": 0.321,
-        "NHITS": 0.244,
-        "DeepAR": 0.236
+        "Naive": 0.281,
+        "SMA": 0.244,
+        "SES": 0.251,
+        "Croston": 0.362,
+        "SBA": 0.347,
+        "TSB": 0.271,
+        "ADIDA": 0.257,
+        "MAPA": 0.262,
+        "LightGBM (global)": 0.283,
+        "NHITS": 0.226,
+        "DeepAR": 0.224
       },
       "mcb": {
-        "N": 4008,
-        "critical_distance": 0.166,
+        "N": 3977,
+        "critical_distance": 0.239,
         "mean_ranks": {
-          "Naive": 4.922,
-          "SMA": 3.826,
-          "SES": 3.737,
-          "Croston": 5.201,
-          "SBA": 4.818,
-          "LightGBM (AI)": 5.259,
-          "NHITS": 4.713,
-          "DeepAR": 3.524
+          "Naive": 6.65,
+          "SMA": 5.237,
+          "SES": 5.083,
+          "Croston": 7.304,
+          "SBA": 6.952,
+          "TSB": 5.615,
+          "ADIDA": 5.1,
+          "MAPA": 5.217,
+          "LightGBM (global)": 7.248,
+          "NHITS": 6.505,
+          "DeepAR": 5.09
         },
         "sig_worse_than_best": {
           "Naive": true,
-          "SMA": true,
-          "SES": true,
+          "SMA": false,
+          "SES": false,
           "Croston": true,
           "SBA": true,
-          "LightGBM (AI)": true,
+          "TSB": true,
+          "ADIDA": false,
+          "MAPA": false,
+          "LightGBM (global)": true,
           "NHITS": true,
           "DeepAR": false
         }

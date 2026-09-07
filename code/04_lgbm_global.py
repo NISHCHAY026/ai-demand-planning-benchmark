@@ -19,6 +19,13 @@ VAL   = {'m5': 8, 'or2': 6}
 # features come from lib.add_ml_features -- the single, leakage-audited source
 # (same-week posted price for M5; strictly lagged transacted price for OR2).
 DATASETS = [d for d in sys.argv[1:] if d in ('m5', 'or2')] or ['m5', 'or2']
+# --leaked regenerates the DISCARDED OR2 specification (same-week transacted price and a
+# test-inclusive normaliser) so the counterfactual quoted in Section 5.7 is reproducible.
+# It writes to *_leaked artefacts and never overwrites a headline result.
+LEAKED = '--leaked' in sys.argv
+SUF = '_leaked' if LEAKED else ''
+if LEAKED:
+    print('*** LEAKED SPECIFICATION -- counterfactual only, not a headline result ***')
 
 for ds in DATASETS:
     panel  = pd.read_parquet(fr'{DATA}\{ds}_weekly.parquet')
@@ -26,7 +33,7 @@ for ds in DATASETS:
     T = int(panel['week_idx'].max()) + 1
     split = T - SPLIT[ds]; val0 = split - VAL[ds]
     print(f'\n[{ds}] building features... T={T} split={split} val_start={val0}')
-    df, feats, cats = lib.add_ml_features(panel, static, ds)
+    df, feats, cats = lib.add_ml_features(panel, static, ds, leaked=LEAKED)
 
     tr = df[df['week_idx'] <  val0]
     va = df[(df['week_idx'] >= val0) & (df['week_idx'] < split)]
@@ -54,10 +61,10 @@ for ds in DATASETS:
     cls = pd.read_parquet(fr'{RES}\{ds}_classical.parquet')[['unique_id','scale']]
     agg = agg.merge(cls, on='unique_id', how='left')
     agg['lgbm_mase'] = agg['lgbm_oos_mae'] / agg['scale']
-    agg.drop(columns=['scale']).to_parquet(fr'{RES}\{ds}_lgbm.parquet', index=False)
+    agg.drop(columns=['scale']).to_parquet(fr'{RES}\{ds}_lgbm{SUF}.parquet', index=False)
     imp = pd.DataFrame({'feature': feats, 'gain': model.feature_importance('gain')}
                        ).sort_values('gain', ascending=False)
-    imp.to_csv(fr'{RES}\{ds}_lgbm_importance.csv', index=False)
+    imp.to_csv(fr'{RES}\{ds}_lgbm_importance{SUF}.csv', index=False)
     print(f'  LightGBM mean MASE={np.nanmean(agg["lgbm_mase"]):.3f} '
           f'median MASE={np.nanmedian(agg["lgbm_mase"]):.3f}')
     print('  top features:', imp.head(6)['feature'].tolist())

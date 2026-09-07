@@ -14,10 +14,14 @@ import lib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA, RES = os.path.join(ROOT, 'data'), os.path.join(ROOT, 'results')
-Q05 = {6: 4.030, 8: 4.286}   # studentized range, alpha=.05, df=inf
+Q05 = {2: 2.772, 3: 3.314, 4: 3.633, 5: 3.858, 6: 4.030, 7: 4.170, 8: 4.286,
+       9: 4.387, 10: 4.474, 11: 4.552, 12: 4.622, 13: 4.685,
+       14: 4.743}   # studentized range, alpha=.05, df=inf
 
 CORE = [('naive', 'Naive'), ('sma', 'SMA'), ('ses', 'SES'),
-        ('croston', 'Croston'), ('sba', 'SBA'), ('lgbm', 'LightGBM (AI)')]
+        ('croston', 'Croston'), ('sba', 'SBA'), ('tsb', 'TSB'),
+        ('adida', 'ADIDA'), ('mapa', 'MAPA'),
+        ('lgbm', 'LightGBM (global)')]
 
 def naive_scale2(Y, fa, split):
     """in-sample mean SQUARED one-step naive error over the training window."""

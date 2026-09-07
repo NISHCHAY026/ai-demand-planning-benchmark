@@ -1,23 +1,56 @@
 # Reproducibility backtest
 
-> **Scope note.** This repository ships the analysis pipeline only. The manuscript and its
-> builders are held back until the paper is published, so the manuscript-consistency layer
-> described below (`repro_backtest.py`, `_repro_extra.py`) is not runnable here. It is
-> retained as a record of what was verified, and Layer 2, which regenerates every result
-> from the code, runs in full.
+> **Scope note.** The manuscript and its builders now ship with the pipeline, so both layers
+> below run here. `repro_backtest.py` currently reports 480 checks and passes.
 
 
 Two independent, re-runnable layers verify that the first paper
 (`AI_demand_planning_OOS_benchmark.*`) is reproducible and internally consistent.
 Both passed.
 
+## Current state (2026-09-07)
+
+The pipeline was re-run end to end on this date after three corrections to the panels and the
+demand classification, described below. What holds now:
+
+| Check | Command | Result |
+|---|---|---|
+| Manuscript against results | `python repro_backtest.py` | **480 checks, all consistent** |
+| Numbers that appear only in prose | `python 33_prose_scan.py` | **none unexplained** |
+| Citations | `python 12_check_citations.py` | **49 references, no orphans, none uncited** |
+| Library staleness | `python 32_provenance.py --check` | **all dependencies unchanged since their outputs were written** |
+
+Three corrections since the June audit, each of which changed numbers deliberately:
+
+1. **Partial weeks removed from both panels.** Both raw sources stop mid-week. The M5 calendar's
+   final bucket held two days rather than seven and fell inside the hold-out window; Online
+   Retail II's first and last buckets were short a Monday and a Sunday. Only weeks the sources
+   cover end to end are now kept, which drops one week from M5 (282 to 281) and the two edge
+   weeks from Online Retail II (106 to 104, and 4,707 series to 4,675). Leaving the M5 week in
+   had lifted the mean MASE of every level-based method by about 0.025, enough to change a
+   conclusion about which methods clear the naive benchmark.
+2. **SBC classes computed on the training window only.** Classifying over the full span lets a
+   series' demand class depend on the hold-out it is scored against. It moves 7.2% of M5 and
+   6.1% of Online Retail II series into a different class, and it moves the class means by far
+   more, because the series that move are the ones whose activity changes across the origin.
+   `35_classification_sensitivity.py` records the counterfactual.
+3. **Tuning grids centralised in `lib.py`.** `03_classical.py` and `06_robustness.py` each held
+   a private copy, so a grid change could apply to the primary split and not the robustness
+   sweep. `36_grid_sensitivity.py` tests whether the literature-standard grid handicaps the
+   classical arm; it does not, and widening it makes the level-based methods worse.
+
+The section below records the June 2026 audit. Its panel dimensions and per-method numbers are
+superseded by the corrections above and are kept as a change record, not as current results.
+
 ## Revision 2026-06-09: validity audit corrections (numbers changed deliberately)
 An adversarial validity audit (beyond reproducibility) found and fixed two issues; all
 results, figures and manuscript text were regenerated and both layers re-passed afterwards:
 1. **OR2 same-week price leak.** Online Retail II prices are transacted prices that exist
-   only in weeks with a sale; the original same-week price feature perfectly identified sale
-   weeks (P(y>0 | price ≠ series median) = 1.0, 23% of LightGBM gain) and inflated OR2
-   LightGBM from mean MASE 0.943 (honest) to 0.867 (leaky). Fixed in `lib.add_ml_features`
+   only in weeks with a sale; the original same-week price feature identified sale weeks by its
+   mere presence (P(y>0 | price observed) = 1, structurally). Regenerating that discarded
+   specification with `04_lgbm_global.py --leaked` shows the two price variables carrying 42% of
+   the model's gain and ranking first and second of twenty-one features, inflating OR2 LightGBM
+   from mean MASE 0.868 (honest) to 0.678 (leaky). Fixed in `lib.add_ml_features`
    (strictly lagged, forward-filled price; expanding-median ratio; no fill at panel build).
    M5 is unaffected (posted catalogue prices are legitimately known in advance).
 2. **Percentage-Best tie-splitting.** On sparse series many methods forecast exactly zero

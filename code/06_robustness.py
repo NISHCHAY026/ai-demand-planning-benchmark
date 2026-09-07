@@ -12,7 +12,9 @@ RES  = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
 DATASETS = [d for d in sys.argv[1:] if d in ('m5', 'or2')] or ['m5', 'or2']
 HORIZONS = {'m5': [13, 26, 39], 'or2': [8, 14, 20]}
 VAL = {'m5': 8, 'or2': 6}
-SES_A = [0.05, 0.1, 0.2, 0.3, 0.4]; CRO_A = [0.01, 0.05, 0.1, 0.2, 0.3]; SMA_K = [2, 3, 4]
+# grids come from lib.py; keeping a private copy here once let the robustness sweep run on
+# a different tuning grid from the primary split without anything failing
+SES_A, CRO_A, SMA_K = lib.SES_A, lib.CRO_A, lib.SMA_K
 
 def _mean_mase(mae, scale, elig):
     m = np.where(elig, mae / np.where((scale > 0) & np.isfinite(scale), scale, np.nan), np.nan)
@@ -37,7 +39,9 @@ def classical_mase(Y, fa, split, scale, elig):
         ('SMA',     lambda p: lib.f_sma(Y, fa, p), SMA_K),
         ('SES',     lambda p: lib.f_ses(Y, fa, p, split), SES_A),
         ('Croston', lambda p: lib.f_croston(Y, fa, p, split, sba=False), CRO_A),
-        ('SBA',     lambda p: lib.f_croston(Y, fa, p, split, sba=True), CRO_A)]:
+        ('SBA',     lambda p: lib.f_croston(Y, fa, p, split, sba=True), CRO_A),
+        ('TSB',     lambda p: lib.f_tsb(Y, fa, p, split), CRO_A),
+        ('MAPA',    lambda p: lib.f_mapa(Y, fa, p, split), SES_A)]:
         tmae = []; xmae = []
         for p in grid:
             F = builder(p)

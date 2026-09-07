@@ -1,19 +1,20 @@
 {
   "dataset": "m5",
+  "classification_window": "training only (weeks < 255 of 281)",
   "n_series": 30490,
-  "n_weeks": 282,
-  "panel_cells": 6838696,
-  "pct_zero_weeks": 23.8,
-  "median_active_weeks": 174.0,
-  "median_ADI": 1.24,
+  "n_weeks": 281,
+  "panel_cells": 6808206,
+  "pct_zero_weeks": 23.7,
+  "median_active_weeks": 153.0,
+  "median_ADI": 1.25,
   "median_CV2": 0.32,
-  "n_classifiable": 30490,
+  "n_classifiable": 30461,
   "class_dist_pct": {
-    "Smooth": 52.5,
-    "Intermittent": 32.9,
+    "Smooth": 51.6,
+    "Intermittent": 34.2,
     "Lumpy": 8.1,
-    "Erratic": 6.4
+    "Erratic": 6.1
   },
-  "pct_intermittent_or_lumpy": 41.0,
-  "pct_smooth": 52.5
+  "pct_intermittent_or_lumpy": 42.3,
+  "pct_smooth": 51.6
 }

@@ -27,7 +27,7 @@ RES = os.path.join(ROOT, 'results')
 
 SPLIT = {'m5': 26, 'or2': 14}
 LEADS = {'m5': [1, 2, 4, 8, 13, 26], 'or2': [1, 2, 4, 7, 14]}
-ORDER = ['Naive', 'SMA', 'SES', 'Croston', 'SBA']
+ORDER = ['Naive', 'SMA', 'SES', 'Croston', 'SBA', 'TSB', 'ADIDA', 'MAPA']
 
 
 def build(ds):
@@ -46,12 +46,27 @@ def build(ds):
             F[m] = fn(p)[m]
         return F
 
+    def per_series2(fn, pk, pa):
+        """Two-parameter version, for ADIDA's (bucket, alpha) pair."""
+        F = np.full_like(Y, np.nan)
+        kv = pk.to_numpy(); av = pa.to_numpy()
+        ok = ~(pd.isna(kv) | pd.isna(av))
+        for pair in {(k, a) for k, a in zip(kv[ok], av[ok])}:
+            m = (kv == pair[0]) & (av == pair[1])
+            if m.any():
+                F[m] = fn(pair[0], pair[1])[m]
+        return F
+
     F = {
         'Naive':   lib.f_naive(Y, fa),
         'SMA':     per_series(lambda k: lib.f_sma(Y, fa, int(k)), cl['sma_sel_param']),
         'SES':     per_series(lambda a: lib.f_ses(Y, fa, float(a), split), cl['ses_sel_param']),
         'Croston': per_series(lambda a: lib.f_croston(Y, fa, float(a), split, sba=False), cl['croston_sel_param']),
         'SBA':     per_series(lambda a: lib.f_croston(Y, fa, float(a), split, sba=True), cl['sba_sel_param']),
+        'TSB':     per_series(lambda a: lib.f_tsb(Y, fa, float(a), split), cl['tsb_sel_param']),
+        'ADIDA':   per_series2(lambda k, a: lib.f_adida(Y, fa, float(a), int(k), split),
+                               cl['adida_sel_k'], cl['adida_sel_param']),
+        'MAPA':    per_series(lambda a: lib.f_mapa(Y, fa, float(a), split), cl['mapa_sel_param']),
     }
     return Y, fa, split, T, F, cl['train_nnz'].to_numpy()
 
@@ -116,12 +131,13 @@ for ds in ('m5', 'or2'):
         row['best'] = rank[0]
         row['Croston_rank'] = rank.index('Croston') + 1
         row['SBA_rank'] = rank.index('SBA') + 1
-        for k in ('SES', 'Croston', 'SBA'):
+        row['TSB_rank'] = rank.index('TSB') + 1
+        for k in ('SES', 'Croston', 'SBA', 'TSB'):
             row[f'{k}_over_Naive'] = round(row[k] / row['Naive'], 3)
         rows.append(row)
         print(f"  L={L:>2}  n={row['n']:>6}  origins={row['origins']:>2}  "
               + '  '.join(f'{k}={row[k]:.3f}' for k in ORDER)
-              + f"   best={row['best']}  Croston {row['Croston_rank']}/5")
+              + f"   best={row['best']}  Croston {row['Croston_rank']}/{len(ORDER)}")
 
     df = pd.DataFrame(rows)
     out = os.path.join(RES, f'{ds}_leadtime.csv')

@@ -1,0 +1,17 @@
+{
+  "chronos_bolt_base": {
+    "coverage_90": 92.18,
+    "n": 4094,
+    "scaled_pinball": 0.3763
+  },
+  "chronos_bolt_small": {
+    "coverage_90": 92.43,
+    "n": 4094,
+    "scaled_pinball": 0.3811
+  },
+  "empirical": {
+    "coverage_90": 92.4,
+    "n": 4094,
+    "scaled_pinball": 0.4762
+  }
+}

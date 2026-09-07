@@ -1,5 +1,5 @@
-class,n,best_by_mean_MASE,mean_MASE,runner_up,runner_up_MASE,best_simple,best_simple_MASE,gain_over_simple_pct,best_by_PercentageBest,PB_pct,metrics_agree,beats_naive_on_MASE
-Smooth,15985,LightGBM,0.812,NHITS,0.829,SES,0.857,5.3,LightGBM (AI),50.3,True,True
-Erratic,1958,LightGBM,0.79,NHITS,0.798,SES,0.838,5.7,LightGBM (AI),43.0,True,True
-Intermittent,10039,NHITS,1.113,LightGBM,1.12,SES,1.165,4.5,LightGBM (AI),37.4,False,True
-Lumpy,2479,LightGBM,1.272,NHITS,1.275,SES,1.361,6.5,LightGBM (AI),35.3,True,True
+class,n,n_eligible_set,best_by_mean_MASE,mean_MASE,runner_up,runner_up_MASE,best_simple,best_simple_MASE,gain_over_simple_pct,best_by_PercentageBest,PB_pct,metrics_agree,beats_naive_on_MASE
+Smooth,15125,15731,LightGBM,0.788,NHITS,0.801,SES,0.824,4.4,LightGBM (global),39.8,True,True
+Erratic,1798,1849,LightGBM,0.727,NHITS,0.735,SES,0.767,5.2,LightGBM (global),39.9,True,True
+Intermittent,10149,10419,NHITS,1.153,LightGBM,1.164,SES,1.204,4.2,LightGBM (global),31.1,False,True
+Lumpy,2414,2461,NHITS,1.045,LightGBM,1.049,SES,1.096,4.7,LightGBM (global),32.8,False,True

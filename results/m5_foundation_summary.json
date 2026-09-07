@@ -1,98 +1,107 @@
 {
   "dataset": "m5",
   "models": [
-    "chronos_bolt_small"
+    "chronos_bolt_small",
+    "chronos_bolt_base"
   ],
   "chunk": 256,
   "test_weeks": 26,
   "input_window": 52,
-  "subset_n_all_methods": 29574,
+  "subset_n_all_methods": 29491,
   "subset_comparison_mean_median": {
     "Naive": [
-      1.197,
-      1.019
+      1.17,
+      0.999
     ],
     "SMA": [
-      1.062,
-      0.885
+      1.033,
+      0.863
     ],
     "SES": [
-      1.031,
-      0.857
+      1.001,
+      0.836
     ],
     "Croston": [
-      1.215,
-      0.902
+      1.205,
+      0.887
     ],
     "SBA": [
-      1.205,
-      0.899
+      1.198,
+      0.888
     ],
     "LightGBM": [
-      0.983,
-      0.821
+      0.963,
+      0.807
     ],
     "NHITS": [
-      0.989,
-      0.826
+      0.967,
+      0.809
     ],
     "DeepAR": [
-      1.007,
-      0.833
+      0.979,
+      0.813
     ],
     "chronos_bolt_small": [
-      1.018,
-      0.839
+      0.993,
+      0.821
+    ],
+    "chronos_bolt_base": [
+      0.997,
+      0.82
     ]
   },
   "by_class": {
     "Smooth": {
-      "n": 15408,
-      "Naive": 1.017,
-      "SMA": 0.882,
-      "SES": 0.857,
-      "Croston": 0.914,
-      "SBA": 0.917,
-      "LightGBM": 0.811,
-      "NHITS": 0.829,
-      "DeepAR": 0.834,
-      "chronos_bolt_small": 0.845
+      "n": 15411,
+      "Naive": 0.993,
+      "SMA": 0.854,
+      "SES": 0.829,
+      "Croston": 0.89,
+      "SBA": 0.898,
+      "LightGBM": 0.793,
+      "NHITS": 0.808,
+      "DeepAR": 0.809,
+      "chronos_bolt_small": 0.82,
+      "chronos_bolt_base": 0.819
     },
     "Erratic": {
-      "n": 1911,
-      "Naive": 0.938,
-      "SMA": 0.861,
-      "SES": 0.838,
-      "Croston": 0.908,
-      "SBA": 0.899,
-      "LightGBM": 0.79,
-      "NHITS": 0.798,
-      "DeepAR": 0.81,
-      "chronos_bolt_small": 0.803
+      "n": 1904,
+      "Naive": 0.922,
+      "SMA": 0.844,
+      "SES": 0.821,
+      "Croston": 0.897,
+      "SBA": 0.893,
+      "LightGBM": 0.778,
+      "NHITS": 0.788,
+      "DeepAR": 0.796,
+      "chronos_bolt_small": 0.791,
+      "chronos_bolt_base": 0.788
     },
     "Intermittent": {
-      "n": 9829,
-      "Naive": 1.422,
-      "SMA": 1.273,
-      "SES": 1.23,
-      "Croston": 1.599,
-      "SBA": 1.573,
-      "LightGBM": 1.184,
-      "NHITS": 1.174,
-      "DeepAR": 1.211,
-      "chronos_bolt_small": 1.221
+      "n": 9802,
+      "Naive": 1.391,
+      "SMA": 1.241,
+      "SES": 1.201,
+      "Croston": 1.613,
+      "SBA": 1.586,
+      "LightGBM": 1.161,
+      "NHITS": 1.154,
+      "DeepAR": 1.181,
+      "chronos_bolt_small": 1.198,
+      "chronos_bolt_base": 1.211
     },
     "Lumpy": {
-      "n": 2426,
-      "Naive": 1.631,
-      "SMA": 1.507,
-      "SES": 1.478,
-      "Croston": 1.812,
+      "n": 2374,
+      "Naive": 1.602,
+      "SMA": 1.479,
+      "SES": 1.436,
+      "Croston": 1.81,
       "SBA": 1.784,
-      "LightGBM": 1.413,
-      "NHITS": 1.402,
-      "DeepAR": 1.432,
-      "chronos_bolt_small": 1.458
+      "LightGBM": 1.39,
+      "NHITS": 1.369,
+      "DeepAR": 1.397,
+      "chronos_bolt_small": 1.434,
+      "chronos_bolt_base": 1.433
     }
   }
 }

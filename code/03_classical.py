@@ -12,9 +12,37 @@ import lib
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 RES  = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results'); os.makedirs(RES, exist_ok=True)
 SPLIT = {'m5': 26, 'or2': 14}          # hold-out window length (weeks)
-SES_A = [0.05, 0.1, 0.2, 0.3, 0.4]
-CRO_A = [0.01, 0.05, 0.1, 0.2, 0.3]
-SMA_K = [2, 3, 4]
+
+# Tuning grids live in lib.py so that this script and 06_robustness.py cannot drift apart.
+SES_A, CRO_A, SMA_K, ADIDA_K = lib.SES_A, lib.CRO_A, lib.SMA_K, lib.ADIDA_K
+
+def select_lean(build, params, Y, tr, te, scale):
+    """Same per-series training-MAE selection as select(), but evaluates one candidate at
+    a time and keeps only the running best. Used for the temporal-aggregation methods,
+    whose grids are large enough that holding every forecast matrix at once is wasteful."""
+    n = Y.shape[0]
+    best_tr = np.full(n, np.inf, dtype=np.float32)
+    sel = np.full(n, -1, dtype=int)
+    keep = {k: np.full(n, np.nan, dtype=np.float32)
+            for k in ('insample_mae', 'oos_mae', 'oos_rmse', 'oos_bias')}
+    for j, p in enumerate(params):
+        F = build(p)
+        tmae, _ = lib.mae_over(F, Y, tr)
+        xmae, _ = lib.mae_over(F, Y, te)
+        xrmse = lib.rmse_over(F, Y, te)
+        xbias = lib.bias_over(F, Y, te)
+        better = np.isfinite(tmae) & (tmae < best_tr)
+        best_tr = np.where(better, tmae, best_tr)
+        keep['insample_mae'] = np.where(better, tmae, keep['insample_mae'])
+        keep['oos_mae'] = np.where(better, xmae, keep['oos_mae'])
+        keep['oos_rmse'] = np.where(better, xrmse, keep['oos_rmse'])
+        keep['oos_bias'] = np.where(better, xbias, keep['oos_bias'])
+        sel = np.where(better, j, sel)
+        del F
+    keep['sel_idx'] = sel
+    keep['mase'] = keep['oos_mae'] / scale
+    return keep
+
 
 def select(F_list, params, Y, fa, tr, te, scale):
     """Given forecasts for each candidate param, pick per series the param with the
@@ -68,15 +96,17 @@ for ds in ['m5', 'or2']:
     res['naive_mase'] = res['naive_oos_mae'] / res['scale']
 
     # ---- SMA / SES / CROSTON / SBA (per-series param selection) ----
+    # select_lean evaluates one candidate at a time; with eleven-point grids on a 30,490 x 281
+    # panel, holding every candidate forecast matrix at once is a needless 400 MB.
     for name, builder, grid, kw in [
         ('sma',     lambda p: lib.f_sma(Y, fa, p),                       SMA_K, {}),
         ('ses',     lambda p: lib.f_ses(Y, fa, p, split),               SES_A, {}),
         ('croston', lambda p: lib.f_croston(Y, fa, p, split, sba=False), CRO_A, {}),
         ('sba',     lambda p: lib.f_croston(Y, fa, p, split, sba=True),  CRO_A, {}),
+        ('tsb',     lambda p: lib.f_tsb(Y, fa, p, split),                CRO_A, {}),
     ]:
-        Fs = [builder(p) for p in grid]
-        d = select(Fs, grid, Y, fa, tr, te, scale)
-        res[f'{name}_sel_param']     = d['sel_param']
+        d = select_lean(builder, grid, Y, tr, te, scale)
+        res[f'{name}_sel_param'] = np.array([grid[i] if i >= 0 else np.nan for i in d['sel_idx']])
         res[f'{name}_insample_mae']  = d['insample_mae']
         res[f'{name}_oos_mae']       = d['oos_mae']
         res[f'{name}_oos_rmse']      = d['oos_rmse']
@@ -84,6 +114,26 @@ for ds in ['m5', 'or2']:
         res[f'{name}_mase']          = d['mase']
         print(f'  {name:8s} mean MASE={np.nanmean(d["mase"]):.3f} '
               f'median MASE={np.nanmedian(d["mase"]):.3f}')
+
+    # ---- ADIDA / MAPA (temporal aggregation) ----
+    # ADIDA is tuned over the (bucket, alpha) grid; MAPA combines across buckets by
+    # construction, so it is tuned over alpha alone, on the same grid SES gets.
+    adida_grid = [(k, a) for k in ADIDA_K for a in SES_A]
+    d = select_lean(lambda p: lib.f_adida(Y, fa, p[1], p[0], split),
+                    adida_grid, Y, tr, te, scale)
+    res['adida_sel_k']     = np.array([adida_grid[i][0] if i >= 0 else np.nan for i in d['sel_idx']])
+    res['adida_sel_param'] = np.array([adida_grid[i][1] if i >= 0 else np.nan for i in d['sel_idx']])
+    for c in ('insample_mae', 'oos_mae', 'oos_rmse', 'oos_bias', 'mase'):
+        res[f'adida_{c}'] = d[c]
+    print(f'  adida    mean MASE={np.nanmean(d["mase"]):.3f} '
+          f'median MASE={np.nanmedian(d["mase"]):.3f}')
+
+    d = select_lean(lambda a: lib.f_mapa(Y, fa, a, split), SES_A, Y, tr, te, scale)
+    res['mapa_sel_param'] = np.array([SES_A[i] if i >= 0 else np.nan for i in d['sel_idx']])
+    for c in ('insample_mae', 'oos_mae', 'oos_rmse', 'oos_bias', 'mase'):
+        res[f'mapa_{c}'] = d[c]
+    print(f'  mapa     mean MASE={np.nanmean(d["mase"]):.3f} '
+          f'median MASE={np.nanmedian(d["mase"]):.3f}')
 
     res.to_parquet(fr'{RES}\{ds}_classical.parquet', index=False)
     print(f'  saved {ds}_classical.parquet  rows={len(res)}')

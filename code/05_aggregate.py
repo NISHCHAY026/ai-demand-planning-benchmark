@@ -9,9 +9,10 @@ Writes CSV/JSON into results/ and prints a digest.
 import os, json, numpy as np, pandas as pd
 
 RES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
-CLASSICAL = ['naive', 'sma', 'ses', 'croston', 'sba']
-ALL6 = CLASSICAL + ['lgbm']
-LABEL = {'naive':'Naive','sma':'SMA','ses':'SES','croston':'Croston','sba':'SBA','lgbm':'LightGBM (AI)'}
+CLASSICAL = ['naive', 'sma', 'ses', 'croston', 'sba', 'tsb', 'adida', 'mapa']
+ALLM = CLASSICAL + ['lgbm']
+LABEL = {'naive':'Naive','sma':'SMA','ses':'SES','croston':'Croston','sba':'SBA',
+         'tsb':'TSB','adida':'ADIDA','mapa':'MAPA','lgbm':'LightGBM (global)'}
 
 def load(ds):
     c = pd.read_parquet(fr'{RES}\{ds}_classical.parquet')
@@ -30,7 +31,13 @@ def pb(df, methods, col='_oos_mae'):
     valid = ~np.isnan(M).all(axis=1)
     Mv = np.where(np.isnan(M[valid]), np.inf, M[valid])
     mins = Mv.min(axis=1, keepdims=True)
-    tied = Mv <= mins + 1e-12
+    # Tie detection must be RELATIVE. An absolute 1e-12 is far below float64 resolution once
+    # errors are in the hundreds of units, so it tested exact bit equality and made the tie
+    # shares depend on the order floating-point sums happened to accumulate in: changing the
+    # parameter selector's internal dtype moved Percentage-Best by half a point without any
+    # forecast changing. Two methods whose scaled errors agree to nine significant figures are
+    # tied for every purpose this statistic serves.
+    tied = Mv <= mins * (1.0 + 1e-9) + 1e-12
     w = tied / tied.sum(axis=1, keepdims=True)
     share = 100.0 * w.mean(axis=0)
     return {methods[i]: round(float(share[i]), 1) for i in range(len(methods))}
@@ -41,8 +48,8 @@ for ds in ['m5', 'or2']:
     n = len(df)
     # (a) overall
     rows = []
-    pb_all = pb(df, ALL6, '_oos_mae')
-    for m in ALL6:
+    pb_all = pb(df, ALLM, '_oos_mae')
+    for m in ALLM:
         mase = df[f'{m}_mase']
         rows.append(dict(method=LABEL[m],
             mean_MASE=round(float(np.nanmean(mase)), 3),
@@ -74,7 +81,7 @@ for ds in ['m5', 'or2']:
         sub = df[df['class'] == cl]
         if len(sub) == 0: continue
         row = {'class': cl, 'n': len(sub)}
-        for m in ALL6:
+        for m in ALLM:
             row[f'{LABEL[m]}'] = round(float(np.nanmean(sub[f'{m}_mase'])), 3)
         byc.append(row)
     pd.DataFrame(byc).to_csv(fr'{RES}\{ds}_by_class.csv', index=False)
@@ -83,7 +90,7 @@ for ds in ['m5', 'or2']:
     for cl in ['Smooth','Intermittent','Erratic','Lumpy']:
         sub = df[df['class'] == cl]
         if len(sub) == 0: continue
-        p = pb(sub, ALL6, '_oos_mae'); p = {'class': cl, 'n': len(sub), **{LABEL[m]: p[m] for m in ALL6}}
+        p = pb(sub, ALLM, '_oos_mae'); p = {'class': cl, 'n': len(sub), **{LABEL[m]: p[m] for m in ALLM}}
         byc_pb.append(p)
     pd.DataFrame(byc_pb).to_csv(fr'{RES}\{ds}_by_class_pb.csv', index=False)
 
@@ -92,9 +99,9 @@ for ds in ['m5', 'or2']:
     band_rows = []
     for b in range(10):
         sub = df[df['vol_band'] == b]
-        p = pb(sub, ALL6, '_oos_mae')
+        p = pb(sub, ALLM, '_oos_mae')
         band_rows.append({'decile': b+1, 'mean_oos_demand': round(float(sub['oos_mean'].mean()),3),
-                          **{LABEL[m]: p[m] for m in ALL6}})
+                          **{LABEL[m]: p[m] for m in ALLM}})
     pd.DataFrame(band_rows).to_csv(fr'{RES}\{ds}_by_volume.csv', index=False)
 
     digest[ds] = dict(n_eligible=n,

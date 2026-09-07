@@ -140,6 +140,115 @@ def f_croston(Y, first_active, alpha, split, sba=False):
     return F
 
 
+def _warm_tsb(Y, first_active, split):
+    """z0 = mean non-zero size in train; p0 = share of train periods carrying demand."""
+    n = Y.shape[0]
+    z0 = np.ones(n, dtype=np.float32); p0 = np.full(n, 0.5, dtype=np.float32)
+    for i in range(n):
+        tr = Y[i, first_active[i]:split]
+        tr = tr[~np.isnan(tr)]
+        nz = tr[tr > 0]
+        if len(tr):
+            p0[i] = len(nz) / len(tr)
+        if len(nz):
+            z0[i] = nz.mean()
+    return z0, p0
+
+def f_tsb(Y, first_active, alpha, split):
+    """Teunter-Syntetos-Babai (2011). Croston smooths the inter-demand INTERVAL and only
+    updates on demand periods, so a series that goes dead keeps its last rate forever.
+    TSB instead smooths the demand PROBABILITY and updates it EVERY period, which decays
+    the forecast toward zero during a run of zeros: the obsolescence-aware variant.
+    Forecast = p * z. One smoothing constant is used for both the size and probability
+    recursions, matching the single-alpha treatment given to Croston and SBA so that the
+    classical arm stays comparable (Section 4.1)."""
+    n, T = Y.shape
+    y0 = np.nan_to_num(Y, nan=0.0)
+    z, p = _warm_tsb(Y, first_active, split)
+    F = np.full((n, T), np.nan, dtype=np.float32)
+    act = _activemask(Y, first_active)
+    for t in range(T):
+        on = act[:, t]
+        F[on, t] = p[on] * z[on]
+        dpos = on & (y0[:, t] > 0)
+        dzero = on & (y0[:, t] <= 0)
+        # size: updated on demand periods only
+        z = np.where(dpos, alpha * y0[:, t] + (1 - alpha) * z, z)
+        # probability: updated every active period, toward 1 on demand and 0 otherwise
+        p = np.where(dpos, alpha + (1 - alpha) * p, p)
+        p = np.where(dzero, (1 - alpha) * p, p)
+    return F
+
+
+def f_adida(Y, first_active, alpha, k, split):
+    """ADIDA (Nikolopoulos, Syntetos, Boylan, Petropoulos and Assimakopoulos, 2011):
+    aggregate the series into buckets, forecast at the aggregate level, disaggregate back.
+    We use OVERLAPPING (rolling) aggregation, which is the variant that suits a
+    rolling-origin one-step protocol: at every origin the aggregate observation is the
+    mean demand over the k most recent ACTIVE periods, SES is applied to that aggregated
+    series, and equal-weight disaggregation returns it to a per-period rate. Dividing by
+    the count of active periods rather than by k handles the ramp-up at the start of a
+    series. At k = 1 this reduces exactly to f_ses, which is the intended nesting."""
+    n, T = Y.shape
+    y0 = np.nan_to_num(Y, nan=0.0)
+    act = _activemask(Y, first_active)
+    a = act.astype(np.float32)
+    cs = np.cumsum(y0 * a, axis=1)
+    cn = np.cumsum(a, axis=1)
+    L = _warm_ses(Y, first_active, split)
+    F = np.full((n, T), np.nan, dtype=np.float32)
+    for t in range(T):
+        on = act[:, t]
+        F[on, t] = L[on]                       # forecast for t uses information to t-1
+        lo = t - k
+        s = cs[:, t] - (cs[:, lo] if lo >= 0 else 0.0)
+        c = cn[:, t] - (cn[:, lo] if lo >= 0 else 0.0)
+        agg = np.where(c > 0, s / np.maximum(c, 1e-9), 0.0).astype(np.float32)
+        L = np.where(on, alpha * agg + (1 - alpha) * L, L)
+    return F
+
+
+# ---- per-series tuning grids (single source of truth) -------------------------------
+# 03_classical.py and 06_robustness.py previously each carried their own copy, which meant a
+# grid change silently applied to the primary split but not the robustness sweep.
+#
+# The headline grids follow the intermittent-demand literature: Croston-family smoothing
+# constants in [0.01, 0.3] (Croston 1972; Syntetos and Boylan 2005), level smoothing to 0.4,
+# short moving averages. That range is narrow enough that the per-series tuner selects a
+# boundary value on 54% to 89% of series, which invites the objection that the classical arm
+# is under-tuned. 36_grid_sensitivity.py tests it directly by re-running on WIDE_*, and the
+# answer is the opposite of the objection: widening makes the level-based methods worse
+# out-of-sample, because on short sparse histories the training criterion is noisy and the
+# extra freedom is spent fitting that noise. The narrow range acts as a shrinkage prior. It
+# is kept for the headline, and the sensitivity is reported in Section 5.13.
+SES_A = [0.05, 0.1, 0.2, 0.3, 0.4]
+CRO_A = [0.01, 0.05, 0.1, 0.2, 0.3]
+SMA_K = [2, 3, 4]
+ADIDA_K = [1, 2, 3, 4, 6, 13]         # k=1 is plain SES, so the tuner can decline to aggregate
+
+# Wide grids, used only by the sensitivity analysis. Their widths were chosen by convergence:
+# extending the Croston family a further tenfold low and to 0.95 high moves its mean MASE by
+# 0.005 (Croston) and 0.019 (SBA), and extending MAPA to 0.99 moves it by 0.0006.
+WIDE_SES_A = [0.005, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 0.9]
+WIDE_CRO_A = [0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5,
+              0.65, 0.8, 0.95]
+WIDE_SMA_K = [2, 3, 4, 6, 8, 13, 26]
+
+MAPA_LEVELS = (1, 2, 3, 4, 6, 13)
+
+def f_mapa(Y, first_active, alpha, split, levels=MAPA_LEVELS):
+    """MAPA (Kourentzes, Petropoulos and Trapero, 2014): rather than committing to one
+    aggregation level, forecast at several and combine. We average the ADIDA forecasts
+    across `levels` with equal weights. Combination is the whole point of the method, so
+    MAPA carries no aggregation hyperparameter of its own and is tuned only over alpha,
+    exactly as SES is."""
+    acc = None
+    for k in levels:
+        F = f_adida(Y, first_active, alpha, k, split)
+        acc = F if acc is None else acc + F     # identical NaN pattern across levels
+    return acc / float(len(levels))
+
+
 # ----------------------------------------------------------------------------- #
 #  Scoring helpers
 # ----------------------------------------------------------------------------- #
@@ -184,7 +293,11 @@ def naive_scale(Y, first_active, split):
 # ----------------------------------------------------------------------------- #
 LAGS = [1, 2, 3, 4, 8, 13, 26, 52]
 
-def add_ml_features(panel, static, ds):
+def add_ml_features(panel, static, ds, leaked=False):
+    """Feature matrix for the global model. leaked=True restores the discarded OR2
+    specification (same-week transacted price, test-inclusive normaliser) purely so the
+    counterfactual quoted in Section 5.7 can be regenerated. It must never be used for a
+    headline result: the same-week price identifies sale weeks perfectly."""
     df = panel.sort_values(['unique_id', 'week_idx']).reset_index(drop=True)
     g = df.groupby('unique_id', observed=True)['y']
     for L in LAGS:
@@ -218,6 +331,14 @@ def add_ml_features(panel, static, ds):
         expmed = (df.groupby('unique_id', observed=True)['sell_price']
                     .expanding(min_periods=1).median().values)
         df['price_ratio'] = (df['sell_price'] / np.where(expmed > 0, expmed, np.nan)).astype('float32')
+    elif leaked:
+        # DISCARDED SPECIFICATION, kept behind the flag for reproducibility only.
+        # Same-week transacted price plus the static full-window median normaliser: the
+        # first reveals y > 0 by its mere presence, the second looks across the origin.
+        pm = df['unique_id'].map(static.set_index('unique_id')['price_med']).astype('float32')
+        df['price'] = df['sell_price'].astype('float32')
+        df['price_ratio'] = (df['sell_price'] / np.where(pm > 0, pm, np.nan)).astype('float32')
+        df['price_med'] = pm
     else:
         # OR2 prices are TRANSACTED prices, observed only in weeks with a sale; a same-week
         # price (or any fill indicator) perfectly reveals y>0 (verified: P(y>0 | price !=
@@ -231,6 +352,8 @@ def add_ml_features(panel, static, ds):
         df['price_ratio'] = (df['price'] / np.where(expmed > 0, expmed, np.nan)).astype('float32')
     feats = [f'lag{L}' for L in LAGS] + ['rmean4','rmean13','rstd4','rmax4','expmean',
              'weeks_since_demand','woy_sin','woy_cos','month','price','price_ratio']
+    if leaked and ds != 'm5':
+        feats.append('price_med')
     cats = ['month']
     s = static.set_index('unique_id')
     if ds == 'm5':

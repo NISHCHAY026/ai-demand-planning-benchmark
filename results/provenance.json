@@ -1,0 +1,97 @@
+{
+  "03_classical.py": {
+    "lib_dependencies": {
+      "ADIDA_K": null,
+      "CRO_A": null,
+      "SES_A": null,
+      "SMA_K": null,
+      "bias_over": "7f32d5554a5d182e",
+      "build_matrix": "2e96d8c2b15da599",
+      "col_slices": "f60e6c6c9e7285b2",
+      "f_adida": "39772afc88d964ed",
+      "f_croston": "a468ebca35a501b0",
+      "f_mapa": "c95320b05b809be8",
+      "f_naive": "514ebfd171076763",
+      "f_ses": "3f0b162288279f98",
+      "f_sma": "5722d549dcd35f8b",
+      "f_tsb": "735e6c7d31922a88",
+      "mae_over": "e678f482404be30b",
+      "naive_scale": "90f53ac5825c73cb",
+      "py": null,
+      "rmse_over": "80dc29a66228147f"
+    },
+    "outputs_present": [
+      "m5_classical.parquet",
+      "or2_classical.parquet"
+    ],
+    "outputs_absent": []
+  },
+  "04_lgbm_global.py": {
+    "lib_dependencies": {
+      "add_ml_features": "dc056c544ad3f09d"
+    },
+    "outputs_present": [
+      "m5_lgbm.parquet",
+      "m5_lgbm_importance.csv",
+      "or2_lgbm.parquet",
+      "or2_lgbm_importance.csv",
+      "or2_lgbm_leaked.parquet",
+      "or2_lgbm_importance_leaked.csv"
+    ],
+    "outputs_absent": []
+  },
+  "10_neural_baselines.py": {
+    "lib_dependencies": {},
+    "outputs_present": [
+      "m5_neural.parquet",
+      "or2_neural.parquet"
+    ],
+    "outputs_absent": []
+  },
+  "18_foundation_models.py": {
+    "lib_dependencies": {
+      "build_matrix": "2e96d8c2b15da599",
+      "col_slices": "f60e6c6c9e7285b2",
+      "mae_over": "e678f482404be30b"
+    },
+    "outputs_present": [
+      "m5_foundation.parquet",
+      "or2_foundation.parquet"
+    ],
+    "outputs_absent": []
+  },
+  "20_timesfm.py": {
+    "lib_dependencies": {
+      "build_matrix": "2e96d8c2b15da599",
+      "col_slices": "f60e6c6c9e7285b2",
+      "mae_over": "e678f482404be30b"
+    },
+    "outputs_present": [
+      "m5_timesfm.parquet",
+      "or2_timesfm.parquet"
+    ],
+    "outputs_absent": []
+  },
+  "28_probabilistic.py": {
+    "lib_dependencies": {
+      "build_matrix": "2e96d8c2b15da599"
+    },
+    "outputs_present": [
+      "or2_prob_empirical.parquet",
+      "or2_prob_chronos_bolt_small.parquet",
+      "or2_prob_chronos_bolt_base.parquet",
+      "or2_tailcheck_chronos_bolt_small.json",
+      "or2_tailcheck_chronos_bolt_base.json"
+    ],
+    "outputs_absent": []
+  },
+  "31_timesfm_quantile_probe.py": {
+    "lib_dependencies": {
+      "build_matrix": "2e96d8c2b15da599"
+    },
+    "outputs_present": [
+      "or2_tailcheck_timesfm.json"
+    ],
+    "outputs_absent": []
+  }
+}

@@ -1,5 +1,5 @@
-class,n,best_by_mean_MASE,mean_MASE,runner_up,runner_up_MASE,best_simple,best_simple_MASE,gain_over_simple_pct,best_by_PercentageBest,PB_pct,metrics_agree,beats_naive_on_MASE
-Smooth,182,Chronos-Bolt-Base,0.752,Chronos-Bolt-Small,0.755,SES,0.765,1.7,SBA,31.9,False,True
-Erratic,1176,TimesFM-200M,0.81,Chronos-Bolt-Small,0.81,SES,0.86,5.8,SBA,29.1,False,True
-Intermittent,445,NHITS,0.375,DeepAR,0.375,SES,0.515,27.2,Naive,34.8,False,True
-Lumpy,2514,NHITS,0.712,Chronos-Bolt-Base,0.722,SES,0.832,14.4,Naive,32.8,False,True
+class,n,n_eligible_set,best_by_mean_MASE,mean_MASE,runner_up,runner_up_MASE,best_simple,best_simple_MASE,gain_over_simple_pct,best_by_PercentageBest,PB_pct,metrics_agree,beats_naive_on_MASE
+Smooth,94,194,DeepAR,0.835,NHITS,0.843,SES,0.919,9.1,SMA,24.0,False,True
+Erratic,1034,1173,Chronos-Bolt-Small,0.697,Chronos-Bolt-Base,0.698,SES,0.746,6.6,SBA,20.2,False,True
+Intermittent,494,520,DeepAR,0.685,NHITS,0.691,SES,0.942,27.3,Naive,25.6,False,True
+Lumpy,2355,2397,NHITS,0.62,Chronos-Bolt-Base,0.636,SES,0.723,14.2,Naive,27.5,False,True

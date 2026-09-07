@@ -1,0 +1,7 @@
+{
+  "dataset": "or2",
+  "model": "chronos_bolt_small",
+  "n_sampled": 256,
+  "share_q95_equals_q90": 1.0,
+  "share_q99_equals_q90": 1.0
+}

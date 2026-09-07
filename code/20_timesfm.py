@@ -54,11 +54,28 @@ def main(ds):
             huggingface_repo_id='google/timesfm-1.0-200m-pytorch'))
     print(f'[{ds}] loaded TimesFM in {time.time()-t0:.1f}s; forecasting...', flush=True)
 
+    # Per-origin checkpoint. This run takes over two hours on M5 and previously kept no
+    # intermediate state, so any interruption cost the whole thing. Resuming skips origins
+    # already computed; delete the file to force a clean run.
+    ckpt = os.path.join(RES, f'_ckpt_{ds}_timesfm_F.npy')
     F = np.full((n, T), np.nan, dtype=np.float32)
+    if os.path.exists(ckpt):
+        try:
+            prev = np.load(ckpt)
+            if prev.shape == F.shape:
+                F = prev
+                print(f'[{ds}] resumed from checkpoint', flush=True)
+            else:
+                print(f'[{ds}] checkpoint shape {prev.shape} != {F.shape}; ignoring it', flush=True)
+        except Exception as e:
+            print(f'[{ds}] unreadable checkpoint ({e}); starting fresh', flush=True)
     origins = list(range(split, T))
     n_elig = len(eligible)
     t0 = time.time(); done = 0
     for oi, t in enumerate(origins):
+        if np.isfinite(F[eligible, t]).all():
+            done += n_elig                      # already in the checkpoint
+            continue
         for c0 in range(0, n_elig, CHUNK):
             rows = eligible[c0:c0 + CHUNK]
             ctxs = []
@@ -72,6 +89,13 @@ def main(ds):
             pf = np.asarray(pf)[:, 0]
             F[rows, t] = np.clip(pf, 0, None).astype(np.float32)
             done += len(rows)
+        tmp = ckpt + '.tmp.npy'
+        np.save(tmp, F)
+        for _try in range(8):                   # same replace race as the chronos runner
+            try:
+                os.replace(tmp, ckpt); break
+            except PermissionError:
+                time.sleep(0.5 * (_try + 1))
         if oi == 0 or (oi + 1) % 5 == 0 or oi == len(origins) - 1:
             el = time.time() - t0; rate = done / max(el, 1e-9)
             eta = (n_elig * len(origins) - done) / max(rate, 1e-9)
@@ -90,6 +114,8 @@ def main(ds):
           f'median MASE={np.nanmedian(out["timesfm_200m_mase"]):.3f} '
           f'n={int(out["timesfm_200m_mase"].notna().sum())}', flush=True)
     print(f'[{ds}] saved {ds}_timesfm.parquet', flush=True)
+    if os.path.exists(ckpt):
+        os.remove(ckpt)                         # finished: drop the intermediate state
 
 
 if __name__ == '__main__':

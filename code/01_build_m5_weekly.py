@@ -5,6 +5,9 @@ persist a compact panel with the M5-standard exogenous features (price, SNAP,
 event calendar). Weekly is the canonical retail replenishment bucket and matches
 the intermittent-demand framing of the study.
 
+Only complete seven-day weeks are kept: the M5 calendar's final bucket holds two days,
+which would otherwise enter the hold-out window as a genuine collapse in demand.
+
 Output: public_study/data/m5_weekly.parquet  (long: unique_id, week_idx, y, + features)
         public_study/data/m5_static.parquet   (unique_id -> cat/dept/store/state)
 """
@@ -41,6 +44,20 @@ cal = pd.read_csv(DATA + r'\m5\m5\datasets\calendar.csv', usecols=['date','wm_yr
 cal['date'] = pd.to_datetime(cal['date'])
 wkmap = cal.set_index('date')['wm_yr_wk']
 df['wm_yr_wk'] = df['ds'].map(wkmap).astype('int32')
+
+# Drop any week that is not a FULL seven calendar days. The M5 calendar ends mid-week:
+# wm_yr_wk 11621 carries two days, so summing daily units into it produces a weekly total
+# roughly two sevenths of a normal week. Left in place it lands inside the hold-out window
+# and charges every flat forecaster with a spurious over-forecast, which is a property of
+# the calendar rather than of any method. Weeks are dropped before the dense index is
+# assigned so that week_idx stays contiguous.
+_days = df.groupby('wm_yr_wk')['ds'].nunique()
+_partial = _days[_days < 7]
+if len(_partial):
+    print(f'Dropping {len(_partial)} incomplete week(s): '
+          + ', '.join(f'{w} ({n}/7 days)' for w, n in _partial.items()))
+    df = df[~df['wm_yr_wk'].isin(_partial.index)].copy()
+
 # dense 0..W-1 week index in chronological order
 weeks = np.sort(df['wm_yr_wk'].unique())
 widx = {w:i for i,w in enumerate(weeks)}

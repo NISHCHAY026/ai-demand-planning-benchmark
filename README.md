@@ -1,39 +1,48 @@
-# The conditional value of AI in supply-chain demand planning
-### A reproducible out-of-sample benchmark on two public retail datasets
+# Evaluation design decides the winner
+### Horizon, leakage and metric effects in intermittent demand forecasting
 
-End-to-end, **public-data-only** study comparing classical statistical forecasters, a global
-gradient-boosted model (LightGBM, the M5-winning class), and two deep neural forecasters
-(NHITS, DeepAR) for retail demand planning across the full intermittency spectrum.
+A reproducible out-of-sample benchmark on two public retail datasets.
+
+End-to-end, **public-data-only** study comparing eight classical forecasters, a global
+gradient-boosted model (LightGBM, the M5-winning class), two deep neural forecasters
+(NHITS, DeepAR) and two pretrained zero-shot models (Chronos-Bolt, TimesFM) for retail demand
+planning across the full intermittency spectrum.
+
+The finding the title refers to: four individually defensible choices about *how the
+comparison is run*, rather than about the methods, each move the ranking on the same data.
 
 ## Headline findings
-1. **In-sample selection inverts out-of-sample.** The forecaster that looks best on the
-   history used to fit it is not the one that generalises. On Online Retail II, SBA wins
-   47% of series in-sample yet is beaten by a naïve random walk out-of-sample.
-2. **AI value is real but depends on the kind of AI and the data.** Global LightGBM is
-   decisively best on the dense M5 panel (mean MASE 0.952, 44% Percentage-Best). On the sparse
-   Online Retail II panel, with price features restricted to strictly past information, it
-   records 0.943 and is **beaten by tuned SES (0.876) and SMA (0.907)**; the deep global models
-   (NHITS 0.723, DeepAR 0.755 on the eligible subset) are the strongest methods there.
-3. **A silent target leak, documented and fixed.** A same-week transacted-price feature
-   perfectly identifies sale weeks in transactional data (P(y>0 | price ≠ series median) = 1.0)
-   and inflated the GBM's apparent OR2 accuracy from 0.943 to 0.867, enough to flip its
-   ranking against every classical method. All results use the corrected, strictly-lagged
-   price specification; the episode is reported in §5.6 as a caution for AI benchmarking.
-4. **That value is conditional on demand regime and data sufficiency.** On the sparse
-   intermittent tail the zero-forecasting simple methods jointly take 61–65% of wins
-   (Percentage-Best uses fractional tie-splitting) and, by MAE-based scoring, **no method
-   beats the naïve benchmark**, and the most complex (neural) models cannot even be applied
-   there.
-5. **The metric matters as much as the method (RMSSE sensitivity).** Under the M5
-   competition's squared-error RMSSE the substantive leaders are unchanged (LightGBM on M5,
-   SES on OR2), but the naive benchmark, winner of the most MAE ties, is the **worst**
-   method in all eight demand classes, and Croston/SBA recover materially: their poor MASE
-   showing is partly a property of median-rewarding metrics, exactly as their proponents
-   argue. Method *and metric* must match the decision.
+1. **The evaluation horizon reverses the Croston ranking.** Scored one step ahead, Croston is
+   last of the eight classical methods on M5. Re-scored on cumulated lead-time demand, which is
+   the quantity an inventory system actually consumes, it is first at 26 weeks, its error
+   against a naive benchmark falling from 1.005 to 0.568. On the sparse panel it stays last at
+   every lead time, so evaluation design and demand regime interact.
+2. **A silent target leak, documented and fixed.** A same-week transacted-price feature
+   identifies sale weeks by its mere presence in transactional data, where price exists only in
+   weeks with a sale. The two price variables carried **42%** of the model's gain and ranked
+   first and second of twenty-one features, inflating apparent accuracy from mean MASE 0.868 to
+   0.678. All results use the corrected, strictly-lagged specification; the discarded one is
+   kept behind `04_lgbm_global.py --leaked` so the counterfactual regenerates.
+3. **The error metric reverses the benchmark's standing.** MASE and RMSSE agree on the winner
+   (LightGBM on M5 at 0.936, SES on Online Retail II at 0.835) but not on the ordering behind
+   it: the naive forecast wins more series than any method but one on the sparse panel under
+   MASE, and has the worst mean RMSSE on both (1.001 and 0.800).
+4. **In-sample selection inverts out-of-sample.** On Online Retail II, SBA wins 39.4% of series
+   in-sample yet records mean MASE 1.088 out of sample, worse than a naive random walk (0.957).
+   On M5 the in-sample champion, ADIDA, keeps a good mean error but loses two thirds of its
+   win rate.
+5. **Machine-learning value is conditional on the demand regime, and on which kind.**
+   Cross-sectional gradient boosting leads the dense panel (0.936) but finishes behind five
+   classical methods on the sparse one (0.868 against SES 0.835). The deep global models post
+   the study's largest margins on the sparse tail, 27% over the best simple method on the
+   intermittent class, but only on series long enough to admit them.
+6. **Two pretrained models that need no per-series history still lose to trained ones** in
+   every sparse demand class on both panels, so what bounds accuracy there is data sufficiency
+   and not model class.
 
 ## Datasets (both public, downloaded by the code)
 - **M5** (Walmart store–SKU daily sales) via `datasetsforecast`. 30,490 series.
-- **UCI Online Retail II** (ID 502), UK online retailer 2009–2011. 4,707 product series.
+- **UCI Online Retail II** (ID 502), UK online retailer 2009–2011. 4,675 product series.
 
 ## Pipeline (`code/`, run in order)
 | Script | Purpose |
@@ -52,9 +61,24 @@ gradient-boosted model (LightGBM, the M5-winning class), and two deep neural for
 | `20_timesfm.py`          | Zero-shot TimesFM inference (separate environment) |
 | `26_foundation_analysis.py` | Zero-shot models against trained ones; the data-sufficiency test (§5.11, Table 10) |
 | `27_managerial_table.py` | Method selection by demand class, mean MASE against Percentage-Best (§6.1, Table 11) |
-| `mcb_analysis.py`        | Multiple-comparisons-with-the-best (Nemenyi) ranks |
+| `28_probabilistic.py`    | Distributional evaluation: scaled pinball and coverage on the sparse panel (§5.12, Table 12) |
+| `29_gap_ci.py`           | Paired bootstrap intervals on the zero-shot minus trained gaps (§5.9, Table 10) |
+| `31_timesfm_quantile_probe.py` | Probes the TimesFM quantile grid, evidence for the ceiling claim (§5.12) |
+| `35_classification_sensitivity.py` | What the full-span SBC convention does to the by-class results (§5.4) |
+| `36_grid_sensitivity.py` | Whether the narrow tuning grid handicaps the classical arm (§5.13) |
+| `mcb_analysis.py`        | Nemenyi ranks, including the product-clustered critical distance (§5.10) |
 | `rmsse_analysis.py`      | Squared-error RMSSE sensitivity |
-| `lib.py`                 | Shared vectorised forecasters, metrics, ML feature builder |
+| `lib.py`                 | Shared vectorised forecasters, metrics, tuning grids, ML feature builder |
+| **Manuscript build** | |
+| `manuscript_content.py`  | Single source of truth for every table, figure caption and paragraph |
+| `30_sync_tables.py`      | Rewrites all eleven table bodies from `results/`, so numbers are a build product |
+| `08`,`11`,`13`,`14`,`23`,`24` | Render docx, PDF, LaTeX, Markdown, pandoc and arXiv bundles |
+| **Verification** | |
+| `repro_backtest.py`      | Re-reads every table cell and inline claim against the result files |
+| `12_check_citations.py`  | Orphan and uncited-reference check |
+| `32_provenance.py`       | Per-function `lib.py` hashes for each result file, so staleness is checkable |
+| `33_prose_scan.py`       | Flags numbers that appear in prose but in no result file |
+| `34_refresh_class_labels.py` | Re-stamps SBC labels on stored model outputs after a re-classification |
 
 ## Getting the data
 
@@ -98,9 +122,11 @@ panels, classifies demand, fits every forecaster, runs the evaluation, and write
 tables and figures. Everything in `results/` regenerates from `code/` and the two public
 datasets.
 
-The manuscript itself is not included. The paper is under peer review, the review is
-double-blind, and the paper will be released when it is published. Until then the numbers
-backing it are all here in `results/` and can be recomputed independently.
+The manuscript ships with it, as a single current copy at
+`manuscript/AI_demand_planning_OOS_benchmark.pdf`. It regenerates from `manuscript_content.py`
+and the builders listed above, so the PDF here and the numbers in `results/` are the same
+artefact seen two ways. There is deliberately one copy and not a version history: the paper is
+rebuilt in place whenever a result changes.
 
 `results/` holds every CSV and JSON result table. `results/figures/` holds the seven figures.
 
@@ -111,8 +137,11 @@ backing it are all here in `results/` and can be recomputed independently.
 ## Method notes
 - Weekly planning bucket; each series runs from its first sale to window end (no pre-launch zeros).
 - One-step-ahead rolling origin; classical params fit on training only; LightGBM and neural models
-  use early stopping / fixed step budget on a pre-test validation band. Because the horizon is one
-  step, every lag/feature is an actual past observation → all methods see the **same information set**.
+  use early stopping or a fixed step budget on a pre-test validation band. Because the horizon is one
+  step, every lag and rolling feature is an actual past observation, so no method sees a value the
+  others could not have seen at that origin. The feature sets are not identical: the global model
+  additionally reads price and, on M5, the SNAP and event calendars, and it fits on a slightly
+  shorter history because of its early-stopping band. What is held identical is the origin.
 - Neural models require an input window, so they are scored on series with adequate history; on that
   same subset every method is re-scored for an apples-to-apples comparison (Table 6).
 - MASE (scale-free) is the primary metric; Percentage-Best counts each series once.

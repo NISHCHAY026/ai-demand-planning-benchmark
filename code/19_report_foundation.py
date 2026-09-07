@@ -7,7 +7,7 @@ by hand here; everything is read from the saved result files.
 """
 import os, json
 
-RES = r'D:\Research Pack\AI_Demand_Planning_Paper\results'
+RES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
 DATASETS = ['m5', 'or2']
 DSNAME = {'m5': 'M5 (Walmart)', 'or2': 'Online Retail II'}
 # display order; foundation models appended dynamically

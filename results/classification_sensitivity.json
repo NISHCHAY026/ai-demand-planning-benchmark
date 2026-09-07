@@ -1,0 +1,136 @@
+{
+  "m5": {
+    "n_eligible": 30460,
+    "pct_series_changing_class": 7.17,
+    "by_class_SES_mean_MASE": {
+      "Smooth": {
+        "training_window": {
+          "n": 15731,
+          "SES": 0.826
+        },
+        "full_span": {
+          "n": 16044,
+          "SES": 0.832
+        }
+      },
+      "Intermittent": {
+        "training_window": {
+          "n": 10419,
+          "SES": 1.206
+        },
+        "full_span": {
+          "n": 10034,
+          "SES": 1.147
+        }
+      },
+      "Erratic": {
+        "training_window": {
+          "n": 1849,
+          "SES": 0.767
+        },
+        "full_span": {
+          "n": 1950,
+          "SES": 0.826
+        }
+      },
+      "Lumpy": {
+        "training_window": {
+          "n": 2461,
+          "SES": 1.096
+        },
+        "full_span": {
+          "n": 2432,
+          "SES": 1.319
+        }
+      }
+    },
+    "movers": {
+      "class": "Lumpy",
+      "stayed": {
+        "n": 2080,
+        "mean_SES_MASE": 1.038,
+        "mean_train_active_weeks": 118.4,
+        "mean_oos_weekly_demand": 4.342
+      },
+      "moved_in_under_training_window": {
+        "n": 381,
+        "mean_SES_MASE": 1.416,
+        "mean_train_active_weeks": 104.4,
+        "mean_oos_weekly_demand": 6.835
+      },
+      "moved_out": {
+        "n": 352,
+        "mean_SES_MASE": 2.984,
+        "mean_train_active_weeks": 98.2,
+        "mean_oos_weekly_demand": 5.951
+      }
+    }
+  },
+  "or2": {
+    "n_eligible": 4284,
+    "pct_series_changing_class": 6.09,
+    "by_class_SES_mean_MASE": {
+      "Smooth": {
+        "training_window": {
+          "n": 194,
+          "SES": 1.171
+        },
+        "full_span": {
+          "n": 169,
+          "SES": 0.874
+        }
+      },
+      "Intermittent": {
+        "training_window": {
+          "n": 520,
+          "SES": 1.173
+        },
+        "full_span": {
+          "n": 471,
+          "SES": 0.541
+        }
+      },
+      "Erratic": {
+        "training_window": {
+          "n": 1173,
+          "SES": 0.792
+        },
+        "full_span": {
+          "n": 1190,
+          "SES": 0.901
+        }
+      },
+      "Lumpy": {
+        "training_window": {
+          "n": 2397,
+          "SES": 0.755
+        },
+        "full_span": {
+          "n": 2454,
+          "SES": 0.856
+        }
+      }
+    },
+    "movers": {
+      "class": "Intermittent",
+      "stayed": {
+        "n": 458,
+        "mean_SES_MASE": 0.515,
+        "mean_train_active_weeks": 10.2,
+        "mean_oos_weekly_demand": 0.638
+      },
+      "moved_in_under_training_window": {
+        "n": 62,
+        "mean_SES_MASE": 6.037,
+        "mean_train_active_weeks": 16.6,
+        "mean_oos_weekly_demand": 21.303
+      },
+      "moved_out": {
+        "n": 13,
+        "mean_SES_MASE": 1.457,
+        "mean_train_active_weeks": 21.5,
+        "mean_oos_weekly_demand": 6.198
+      }
+    }
+  }
+}

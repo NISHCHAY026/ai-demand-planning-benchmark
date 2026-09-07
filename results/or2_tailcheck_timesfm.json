@@ -1,0 +1,25 @@
+{
+  "dataset": "or2",
+  "model": "timesfm-1.0-200m",
+  "n_sampled": 256,
+  "declared_quantiles": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "quantile_output_shape": [
+    256,
+    1,
+    10
+  ],
+  "n_quantile_columns": 10,
+  "can_express_q95": false,
+  "can_express_q99": false,
+  "note": "quantile_forecast carries one mean column followed by the declared decile grid; no column corresponds to the 0.95 or 0.99 level, so neither can be read off without extrapolating past the grid."
+}

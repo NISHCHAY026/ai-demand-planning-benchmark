@@ -17,9 +17,18 @@ __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
 
-# Personal material and packaging artifacts, not part of this study
+# Personal material and packaging artifacts, not part of this study.
+# niw_content.py holds a companion document personal to the author; manuscript_content.py
+# imports it if present and renders the paper alone when it is not, so a public clone is
+# complete for the paper and carries none of that material.
+code/niw_content.py
+code/09_build_niw_brief.py
 manuscript/*_evidence_brief.*
 manuscript/overleaf_submission.zip
+
+# Local working backups
+*.bak
+*.bak.*
 
 # Editor / OS
 .vscode/
