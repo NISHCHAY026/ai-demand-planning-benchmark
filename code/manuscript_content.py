@@ -579,7 +579,7 @@ def blocks(anonymous=False):
         'and decays toward zero through a run of zeros. Two of the three published members of the family are '
         'therefore weak here for a reason that is specific to their recursion, not to the idea of separating '
         'demand size from demand frequency. What remains of the Croston and SBA deficit is largely a horizon '
-        'effect: Section 5.6 shows that on M5 Croston rises from seventh of eight classical methods to fifth at a quarterly '
+        'effect: Section 5.6 shows that on M5 Croston rises from last of eight classical methods to fifth at a quarterly '
         'lead time, and to first of the eight at 26 weeks, while on Online Retail II it remains last at every '
         'lead time we test. SBA additionally carries a large systematic under-forecast bias on M5 (it '
         'over-forecasts only 24.4% of series), which is what over-correction of the positive bias SBA was '
@@ -907,8 +907,7 @@ def blocks(anonymous=False):
         'context into patches and regresses quantiles directly; TimesFM is a patched decoder-only forecaster. '
         'Both are patch-based transformers, so they are not architecturally unrelated, but they were built by '
         'different groups and trained on different corpora, and Chronos-Bolt’s corpus composition is not '
-        'published. They share no '
-        'architecture and no training corpus, yet on M5 they land within 0.003 of one another in every demand '
+        'published. Yet on M5 they land within 0.003 of one another in every demand '
         'class (0.812 against 0.815 on smooth, 0.743 against 0.745 on erratic, 1.195 against 1.197 on '
         'intermittent, 1.078 against 1.078 on lumpy) and report overall mean MASE of 0.961 and 0.964. Two '
         'independent routes to the same ceiling is what a limit in the data looks like, not a limit in any '
@@ -1221,11 +1220,8 @@ def blocks(anonymous=False):
         'so the leak counterfactual can be regenerated without any risk of it re-entering a headline '
         'result.'))
 
-    A(('h1', 'Declaration of generative AI and AI-assisted technologies in the writing process'))
-    A(('p', 'During the preparation of this work the author used Claude (Anthropic) to assist with drafting '
-        'the manuscript text and with writing the analysis code. After using this tool, the author reviewed, '
-        'verified and edited the content as needed and takes full responsibility for the content of the '
-        'publication.'))
+    A(('h1', 'Declaration of generative AI and AI-assisted technologies in the manuscript preparation process'))
+    A(('p', 'During the preparation of this work the author used Claude (Anthropic) in order to help compile the manuscript. After using this tool, the author reviewed and edited the content as needed and takes full responsibility for the content of the published article.'))
 
     A(('h1', 'References'))
     A(('refs', [
@@ -1375,13 +1371,12 @@ def titlepage_blocks():
          ('p', 'Data availability: Both datasets are publicly available: the M5 competition data and the '
                'UCI Online Retail II dataset (UCI Machine Learning Repository, ID 502). The complete analysis '
                'code will be released publicly upon publication.'),
+         ('p', 'Declaration of generative AI and AI-assisted technologies in the manuscript preparation '
+               'process: during the preparation of this work the author used Claude (Anthropic) in order '
+               'to help compile the manuscript. After using this tool, the author reviewed and edited the '
+               'content as needed and takes full responsibility for the content of the published article.'),
          ('p', 'Author contributions: Nishchay Patel is the sole author and is responsible for all aspects '
                'of the study.'),
-         ('p', 'Declaration of generative AI and AI-assisted technologies in the writing process: during the '
-               'preparation of this work the author used Claude (Anthropic) to assist with drafting the '
-               'manuscript text and with writing the analysis code. After using this tool, the author '
-               'reviewed, verified and edited the content as needed and takes full responsibility for the '
-               'content of the publication.'),
          ('p', 'Prepared for submission to the International Journal of Forecasting (double-blind review). '
                'The accompanying manuscript file is anonymized; this title page carries the author '
                'identification.')]

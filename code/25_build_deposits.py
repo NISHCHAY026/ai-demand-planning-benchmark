@@ -35,7 +35,9 @@ i = next(n for n, b in enumerate(blocks) if b[0] == 'h_abstract')
 abstract = plain(re.sub(r'\s+', ' ', blocks[i + 1][1]).strip())
 kw_raw = next(b[1] for b in blocks if b[0] == 'keywords')
 keywords = [plain(k).strip(' .;') for k in kw_raw.replace('Keywords:', '').split(';') if k.strip(' .;')]
-disclosure = plain(next(b[1] for b in blocks if b[0] == 'p' and 'Claude (Anthropic)' in b[1]))
+# the manuscript carries an AI declaration only when one applies; deposits follow it
+_disc = next((b[1] for b in blocks if b[0] == 'p' and 'Claude (Anthropic)' in b[1]), None)
+disclosure = plain(_disc) if _disc else ''
 
 # ---------------------------------------------------------------- Zenodo
 zenodo = {
@@ -78,7 +80,9 @@ with open(os.path.join(OUT, 'dot_zenodo.json'), 'w', encoding='utf-8', newline='
 
 # ---------------------------------------------------------------- SSRN
 # SSRN asks that any AI disclosure appear WITH the abstract, not only inside the PDF.
-ssrn_abstract = abstract + '\n\nDeclaration of generative AI: ' + disclosure
+ssrn_abstract = abstract
+if disclosure:
+    ssrn_abstract += '\n\nDeclaration of generative AI: ' + disclosure
 
 JEL = [('C53', 'Forecasting and Prediction Methods; Simulation Modeling'),
        ('C45', 'Neural Networks and Related Topics'),
@@ -142,6 +146,7 @@ for f in sorted(os.listdir(OUT)):
     print(f'   {f}  ({os.path.getsize(os.path.join(OUT, f)):,} bytes)')
 print()
 print(f'  abstract          : {len(abstract)} chars')
-print(f'  SSRN abstract     : {len(ssrn_abstract)} chars (with disclosure)')
+print('  SSRN abstract     : ' + str(len(ssrn_abstract)) + ' chars'
+      + (' (with AI disclosure)' if disclosure else ' (no AI disclosure)'))
 print(f'  keywords          : {len(keywords)}')
 print(f'  em dashes in meta : {sum(t.count(chr(0x2014)) for t in [title, abstract, ssrn_abstract])}')
